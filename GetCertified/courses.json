@@ -1,0 +1,265 @@
+[
+  {
+    "id": "mac-integration-basics",
+    "name": "Mac Integration Basics",
+    "type": "certification",
+    "certificationKind": "Apple Certified Associate",
+    "category": "IT Professional Track",
+    "description": "Mac Integration Basics is a one-day training that will guide you through the process of setting up your system to take full advantage of your network services such as directory services, file sharing, printing, email, and more.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "mac-management-basics",
+    "name": "Mac Management Basics",
+    "type": "certification",
+    "certificationKind": "Apple Certified Associate",
+    "category": "IT Professional Track",
+    "description": "Mac Management Basics is all about deployment of tens, hundreds, or even thousands of Mac computers, configuring and adding a Mac to an organization's network. Furthermore, this course tells about managing Mac computers so that they can easily access resources and comply with IT policies.",
+    "hours": 16,
+    "image": "placeholder"
+  },
+  {
+    "id": "os-x-support-essentials",
+    "name": "OS X Support Essentials",
+    "type": "certification",
+    "certificationKind": "Apple Certified Support Professional",
+    "category": "IT Professional Track",
+    "description": "Mac OS X Support Essentials is a three-day, hands-on course that provides an in-depth exploration of troubleshooting on the Mac OS X. This course is designed to give you a tour of the breadth of functionality of Mac OS X and the best methods for effectively supporting users of Mac OS X systems. The course is a combination of lectures and hands-on case study exercises that provide practical real world experience.",
+    "hours": 24,
+    "image": "placeholder"
+  },
+  {
+    "id": "os-x-server-essentials",
+    "name": "OS X Server Essentials",
+    "type": "certification",
+    "certificationKind": "Apple Certified Technical Coordinator",
+    "category": "IT Professional Track",
+    "description": "A three-day course designed to give technical coordinators and entry level system administrators the skills, tools, and knowledge to implement and maintain a network that uses OS X Server to provide network-based services, such as file sharing, web and wikis. Tools for efficiently managing and deploying an OS X are also covered. The course is a combination of lecture and hands-on case study exercises that provide practical and real-world experience.",
+    "hours": 24,
+    "image": "placeholder"
+  },
+  {
+    "id": "pages-numbers-and-keynote",
+    "name": "Pages, Numbers and Keynote",
+    "type": "certification",
+    "certificationKind": "Apple Certified Pro",
+    "category": "Creative Professional Track",
+    "description": "In this three-day hands-on course, students become familiar with the key features and functionality of Pages, Numbers, and Keynote. Students work with real-world content and scenarios to learn practical approaches to creating documents, spreadsheets, and presentations. The skills students learn in this course will help prepare them to take the following certification exams: Apple Certified Pro - Pages, Apple Certified Pro - Numbers, Apple Certified Pro - Keynote",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "final-cut-pro-x",
+    "name": "Final Cut Pro X",
+    "type": "certification",
+    "certificationKind": "Apple Certified Pro",
+    "category": "Creative Professional Track",
+    "description": "In this three-day hands-on course, students become familiar with the user interface while they learn how to perform editing functions. Students work with real-world media to learn practical approaches to video editing—from basic techniques to Final Cut Pro's powerful advanced features.",
+    "hours": 24,
+    "image": "placeholder"
+  },
+  {
+    "id": "logic-pro-x",
+    "name": "Logic Pro X",
+    "type": "certification",
+    "certificationKind": "Apple Certified Pro",
+    "category": "Creative Professional Track",
+    "description": "This course introduces Logic Pro's primary features and basic user interface. Lessons in this course focus on how to generate a customized audio and MIDI configuration that will seamlessly integrate with their own personal production studio. This course is also an introduction in song composition/creation using Logic Pro's comprehensive array of software instruments, Apple Loops and DSP effects.",
+    "hours": 24,
+    "image": "placeholder"
+  },
+  {
+    "id": "mac-os-x-basic-course",
+    "name": "Mac OS X Basic Course",
+    "type": "regular",
+    "category": "OS X and Technical",
+    "description": "This course focuses on the basic use of your Mac computer, covering the creation of user accounts, software installation and upgrade, ejecting media, saving files and other Mac essentials. Each lesson introduces you to a Mac OS X feature and gives you an overview on how to use it effectively.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "mac-os-x-advanced-course",
+    "name": "Mac OS X Advanced Course",
+    "type": "regular",
+    "category": "OS X and Technical",
+    "description": "In this lesson you will learn the advanced features of Mac OS X Mavericks: System Preferences and Utilities. Customize your computer and set up users, network connections, backups, and more using the tools in System Preferences. The Utilities folder also contains applications that aren't used very often or are only for advanced users.",
+    "hours": 16,
+    "image": "placeholder"
+  },
+  {
+    "id": "mac-os-x-basic-troubleshooting",
+    "name": "Mac OS X Basic Troubleshooting",
+    "type": "regular",
+    "category": "OS X and Technical",
+    "description": "This course provides detailed, step-by-step instructions to troubleshoot a Mac and prevent problems with Mac OS X, including OS X installation, upgrades, comprehensive backup and recovery solutions and more.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "apple-networking-essentials",
+    "name": "Apple Networking Essentials",
+    "type": "regular",
+    "category": "OS X and Technical",
+    "description": "Understand fundamental Apple network concepts, configuration and set up. Learn the capability to share information between computers across a network. Identify and resolve network connectivity issues.",
+    "hours": 16,
+    "image": "placeholder"
+  },
+  {
+    "id": "mobile-device-management",
+    "name": "Mobile Device Management",
+    "subtitle": "Profile Management",
+    "type": "regular",
+    "category": "OS X and Technical",
+    "description": "This course is ideal for iOS deployment or managing several units of iPad for installing applications and user settings. This is highly recommended for IT administrators who want to be able to support their institution in the large volume usage of iOS devices.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "ilife",
+    "name": "iLife",
+    "type": "regular",
+    "category": "Productivity",
+    "description": "This course focuses on the iLife suite of programs that comes standard on every new Mac. Lessons cover three programs comprising iLife: iPhoto, iMovie, and GarageBand. These apps cover different digital media, from photography, audio production, and video editing.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "ms-office-for-mac",
+    "name": "MS Office for Mac",
+    "type": "regular",
+    "category": "Productivity",
+    "description": "This course covers the mastery of the basics in using your licensed Microsoft Office for Mac. This will help ensure the smooth transition from Windows-based to Mac-based MS Office.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "iwork-for-mac",
+    "name": "iWork for Mac",
+    "type": "regular",
+    "category": "Productivity",
+    "description": "This is an introductory course on iWork application suite, including Pages, Keynote and Numbers on a Mac. Session is a combination of lecture and hands-on exercises on creating presentation, documents and spreadsheets.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "iwork-for-ios",
+    "name": "iWork for iOS",
+    "type": "regular",
+    "category": "Productivity",
+    "description": "This is an introductory course on iWork application suite, including Pages, Keynote and Numbers on an iOS device. Session is a combination of lecture and hands-on exercises on creating presentation, documents and spreadsheets.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "final-cut-pro",
+    "name": "Final Cut Pro",
+    "type": "regular",
+    "category": "Productivity",
+    "description": "This is a one-day hands-on course that teaches students to perform basic editing functions and become familiar with the user interface. Start with the basic video editing techniques and work all the way through Final Cut Pro's powerful features.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "making-ebooks",
+    "name": "Making eBooks",
+    "subtitle": "iBooks Author",
+    "type": "regular",
+    "category": "Productivity",
+    "description": "This course is solely concentrated on creating digital books made for iOS devices. iBooks Author is a graphics and interaction-driven application and the user will be able to use the templates and page layouts that can aid in starting their foray in digital publishing.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "ios-basics",
+    "name": "iOS Basics",
+    "type": "regular",
+    "category": "iOS",
+    "description": "This course targets the new user who needs help with the basics, like navigating the iOS devices (iPhone, iPad and iPod Touch), searching and downloading apps, customizing certain features through the settings of the iOS device.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "ios-troubleshooting",
+    "name": "iOS Troubleshooting",
+    "type": "regular",
+    "category": "iOS",
+    "description": "This course provides detailed, step-by-step instructions to troubleshoot an iOS device (iPhone or iPad) including iOS installation, upgrades, comprehensive backup, iTunes syncing, iCloud and more.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "ios-app-development",
+    "name": "iOS App Development",
+    "type": "regular",
+    "category": "Creativity",
+    "description": "Learn application development on iOS devices. Learn the fundamentals, How-To and concepts of Xcode as an IDE. Also learn the fundamentals of data storage, GPS technology and start creating your own iOS app.",
+    "hours": 40,
+    "image": "placeholder"
+  },
+  {
+    "id": "autocad",
+    "name": "AutoCAD",
+    "type": "regular",
+    "category": "Creativity",
+    "description": "This entry-level course targets those with little or no previous AutoCAD experience or those with a need for substantial upgrading from previous non-Windows environment versions of AutoCAD.",
+    "hours": 24,
+    "image": "placeholder"
+  },
+  {
+    "id": "maya",
+    "name": "Maya",
+    "type": "regular",
+    "category": "Creativity",
+    "description": "Maya 3D animation, modeling, simulation, rendering, and compositing software offers a comprehensive creative feature set on a highly extensible production platform. Maya provides high-end character and effects toolsets along with increased productivity for modeling, texturing, and shader creation tasks.",
+    "hours": 12,
+    "image": "placeholder"
+  },
+  {
+    "id": "technology-fused-learning-for-teachers-fundamentals",
+    "name": "Technology Fused Learning for Teachers",
+    "subtitle": "Apple Fundamentals Training",
+    "type": "regular",
+    "category": "Apple in Education",
+    "description": "Apple Fundamentals Training is focused on building technology skills. These fundamentals of Apple technology will help faculty become confident and comfortable using Apple products and integrate them into their teaching strategies.",
+    "hours": 16,
+    "image": "placeholder"
+  },
+  {
+    "id": "technology-fused-learning-for-teachers-curriculum",
+    "name": "Technology Fused Learning for Teachers",
+    "subtitle": "Curriculum Development Workshop",
+    "type": "regular",
+    "category": "Apple in Education",
+    "description": "Curriculum Development Workshop: These workshops focus on curriculum, lesson planning, content design, and instruction using Apple technology. This session will enable participants to acquire and apply skills in the use of iPad or Mac applications for classroom teaching.",
+    "hours": 8,
+    "image": "placeholder"
+  },
+  {
+    "id": "apple-technical-training-for-it-team",
+    "name": "Apple Technical Training for IT Team",
+    "type": "regular",
+    "category": "Apple in Education",
+    "description": "This training will empower IT staff assigned to the education institution to become confident and familiar with basic troubleshooting techniques, understanding Mac OS X and iOS integration with existing non-Apple systems and infrastructure of the school, mobile device management, introduction to Apple certification program and strengthen their capacity to provide special level of technical support.",
+    "hours": 24,
+    "image": "placeholder"
+  },
+  {
+    "id": "apple-technology-training-for-parents-and-digital-kids",
+    "name": "Apple Technology Training for Parents and Digital Kids",
+    "type": "regular",
+    "category": "Apple in Education",
+    "description": "Training designed for parents and students to complete the successful implementation of Apple technology in schools. Parents will see the value of their investments and understand how their children benefit from these special tools. Informed and trained parents will be very supportive of the school's technology direction when they see and experience Apple devices in action.",
+    "hours": 16,
+    "image": "placeholder"
+  },
+  {
+    "id": "apple-professional-development",
+    "name": "Apple Professional Development",
+    "type": "regular",
+    "category": "Apple in Education",
+    "description": "Professional development is a training program and mentoring for teachers. Through hands-on workshops, Apple Professional Development experts will show you how to integrate Apple products and technology into your curriculum and classroom lessons to achieve richer learning and fuller teaching experience. Workshops are hands-on and address a wide range of teaching and learning needs. All workshops are presented in a context that models technology implementation in a wide variety of curricular styles. The APD Catalog can be downloaded at: https://www.apple.com/education/docs/APD_Catalog.pdf",
+    "hours": 480,
+    "image": "placeholder"
+  }
+]
