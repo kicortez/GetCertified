@@ -20,13 +20,19 @@ struct CoursesView: View {
       ScrollView {
         LazyVGrid(columns: columns, spacing: 16) {
           ForEach(filteredItems) { course in
-            RoundedRectangle(cornerRadius: 16)
-              .fill(.quaternary)
-              .aspectRatio(1, contentMode: .fit)
-              .overlay { Text(course.name) }
+            NavigationLink(value: course) {
+              RoundedRectangle(cornerRadius: 16)
+                .fill(.quaternary)
+                .aspectRatio(1, contentMode: .fit)
+                .overlay { Text(course.name).foregroundStyle(.primary) }
+            }
+            .buttonStyle(.plain)
           }
         }
         .padding(16)
+      }
+      .navigationDestination(for: Course.self) { course in
+        CourseDetailView(course: course)
       }
       .searchable(text: $searchText)
       .navigationTitle("Courses")
