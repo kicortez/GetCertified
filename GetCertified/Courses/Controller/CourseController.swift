@@ -1,7 +1,6 @@
 import Foundation
 import Observation
 
-@MainActor
 @Observable
 final class CourseController {
   @ObservationIgnored private let service: CourseServiceProtocol

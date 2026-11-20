@@ -11,8 +11,22 @@
     ],
   },
   "files": [
-    { "kind": "folder", "path": "GetCertified", "target-membership": [ "GetCertified" ] },
     {
+      "kind": "folder",
+      "path": "GetCertified",
+      "target-membership": [
+        "GetCertified",
+      ],
+      "membership-exceptions": [
+        {
+          "target": "GetCertified",
+          "exclusions": [
+            "Book/CLAUDE.md",
+            "Courses/CLAUDE.md",
+          ],
+        },
+      ],
+    }, {
       "kind": "group",
       "name": "Products",
       "children": [
