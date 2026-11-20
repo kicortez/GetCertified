@@ -3,6 +3,10 @@ import SwiftUI
 struct CourseDetailView: View {
   let course: Course
 
+  @Environment(BookController.self) private var bookController
+
+  private var isAdded: Bool { bookController.contains(course) }
+
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 16) {
@@ -37,19 +41,31 @@ struct CourseDetailView: View {
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(16)
     }
-    .safeAreaInset(edge: .bottom) {
-      Button {
-        // TODO: add to training
-      } label: {
-        Text("Add to training")
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.borderedProminent)
-      .controlSize(.large)
-      .padding(16)
-      .background(.bar)
-    }
+    .safeAreaInset(edge: .bottom) { addButton }
     .navigationTitle(course.name)
     .navigationBarTitleDisplayMode(.inline)
+  }
+
+  private var addButton: some View {
+    Group {
+      if isAdded {
+        Button(role: .destructive) {
+          Task { await bookController.remove(course) }
+        } label: {
+          Text("Remove from training").frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+      } else {
+        Button {
+          Task { await bookController.add(course) }
+        } label: {
+          Text("Add to training").frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.borderedProminent)
+      }
+    }
+    .controlSize(.large)
+    .padding(16)
+    .background(.bar)
   }
 }

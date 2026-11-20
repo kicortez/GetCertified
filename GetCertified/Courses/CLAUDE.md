@@ -15,4 +15,4 @@ The Courses tab shows the course catalog. It uses View → Controller → Servic
 - `CoursesView` owns the controller as `@State`. It loads data in `.task { await controller.fetchCourses() }`.
 - It shows a `LazyVGrid` with 2 columns in compact width and 3 in regular. `.searchable` filters the grid by name on the client.
 - Selecting a course pushes `CourseDetailView`.
-- `CourseDetailView` has an "Add to training" button in a bottom `safeAreaInset`. The button's action is still a `// TODO`. It is meant to add the course to Book, as described in the root `CLAUDE.md`.
+- `CourseDetailView` has an "Add to training" button in a bottom `safeAreaInset`. It calls `BookController.add(_:)` on the controller it reads from the environment (see `Book/CLAUDE.md`). Once the course has been added, the button changes to a destructive "Remove from training", which calls `remove(_:)`. Adding a course only puts it in the Book cart; it doesn't book it.
