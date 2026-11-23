@@ -1,0 +1,7 @@
+[
+  { "id": "short-sessions", "text": "Short, focused study sessions beat long cramming before an exam." },
+  { "id": "hands-on", "text": "Practice in a lab or test device. Doing a task once teaches more than reading about it twice." },
+  { "id": "teach-back", "text": "Explain a topic out loud as if teaching it. Gaps in your understanding show up fast." },
+  { "id": "practice-exams", "text": "Take a timed practice exam a week before the real one to find your weak spots." },
+  { "id": "rest", "text": "Sleep well the night before an exam. Rest helps you recall what you studied." }
+]

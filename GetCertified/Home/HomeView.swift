@@ -1,21 +1,38 @@
 import SwiftUI
 
 struct HomeView: View {
-  private static let placeholderCount = 6
+  @State private var heroController = HeroBannerController(service: HeroBannerService())
+  @State private var popularController = CourseRowController(
+    service: CourseRowService(resource: "popular-courses"))
+  @State private var newController = CourseRowController(
+    service: CourseRowService(resource: "new-courses"))
+  @State private var tipController = TipController(service: TipService())
 
   var body: some View {
     NavigationStack {
       ScrollView {
         VStack(alignment: .leading, spacing: 24) {
           heroBanner
-          courseRow(title: "Popular Courses")
-          courseRow(title: "New Courses")
+          courseRow(title: "Popular Courses", courses: popularController.courses)
+          courseRow(title: "New Courses", courses: newController.courses)
           tipOfTheDay
         }
         .padding(.vertical, 16)
       }
+      .navigationDestination(for: Course.self) { course in
+        CourseDetailView(course: course)
+      }
       .navigationTitle("Home")
+      .task { await loadSections() }
     }
+  }
+
+  private func loadSections() async {
+    async let banner: Void = heroController.fetchBanner()
+    async let popular: Void = popularController.fetchCourses()
+    async let new: Void = newController.fetchCourses()
+    async let tip: Void = tipController.fetchTip()
+    _ = await (banner, popular, new, tip)
   }
 
   private var heroBanner: some View {
@@ -23,24 +40,28 @@ struct HomeView: View {
       .fill(Color.accentColor.gradient)
       .frame(height: 180)
       .overlay(alignment: .bottomLeading) {
-        VStack(alignment: .leading, spacing: 4) {
-          Text("Get Certified").font(.title.bold())
-          Text("Level up your skills with our latest trainings.")
-            .font(.subheadline)
+        if let banner = heroController.banner {
+          VStack(alignment: .leading, spacing: 4) {
+            Text(banner.title).font(.title.bold())
+            Text(banner.subtitle).font(.subheadline)
+          }
+          .foregroundStyle(.white)
+          .padding(16)
         }
-        .foregroundStyle(.white)
-        .padding(16)
       }
       .padding(.horizontal, 16)
   }
 
-  private func courseRow(title: LocalizedStringKey) -> some View {
+  private func courseRow(title: LocalizedStringKey, courses: [Course]) -> some View {
     VStack(alignment: .leading, spacing: 12) {
       sectionHeader(title)
       ScrollView(.horizontal) {
         LazyHStack(spacing: 12) {
-          ForEach(0..<Self.placeholderCount, id: \.self) { _ in
-            placeholderCard
+          ForEach(courses) { course in
+            NavigationLink(value: course) {
+              courseCard(course)
+            }
+            .buttonStyle(.plain)
           }
         }
         .scrollTargetLayout()
@@ -51,27 +72,30 @@ struct HomeView: View {
     }
   }
 
-  private var placeholderCard: some View {
+  private func courseCard(_ course: Course) -> some View {
     RoundedRectangle(cornerRadius: 16)
       .fill(.quaternary)
       .frame(width: 160, height: 120)
-      .overlay { Text("Course").font(.caption).foregroundStyle(.secondary) }
+      .overlay { Text(course.name).font(.caption).foregroundStyle(.primary) }
   }
 
+  @ViewBuilder
   private var tipOfTheDay: some View {
-    VStack(alignment: .leading, spacing: 12) {
-      sectionHeader("Tip of the Day")
-      HStack(alignment: .top, spacing: 12) {
-        Image(systemName: "lightbulb")
-          .font(.title2)
-          .foregroundStyle(.yellow)
-        Text("Short, focused study sessions beat long cramming before an exam.")
-          .font(.body)
+    if let tip = tipController.tip {
+      VStack(alignment: .leading, spacing: 12) {
+        sectionHeader("Tip of the Day")
+        HStack(alignment: .top, spacing: 12) {
+          Image(systemName: "lightbulb")
+            .font(.title2)
+            .foregroundStyle(.yellow)
+          Text(tip.text)
+            .font(.body)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(.quaternary, in: RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal, 16)
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(16)
-      .background(.quaternary, in: RoundedRectangle(cornerRadius: 16))
-      .padding(.horizontal, 16)
     }
   }
 
