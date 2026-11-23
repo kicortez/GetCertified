@@ -21,13 +21,14 @@ That automatic membership also covers non-code files. Every `CLAUDE.md` inside `
 
 ## Architecture
 
-The code is organized by feature folder. `RootView` holds a `TabView` built with the `Tab` API, with three tabs: Home, which is still a placeholder `Text`; Courses; and Book.
+The code is organized by feature folder. `RootView` holds a `TabView` built with the `Tab` API, with three tabs: Home, which shows placeholder sections; Courses; and Book.
 
 Each feature folder has its own `CLAUDE.md`, which Claude Code loads when it works on files in that folder:
 
 | Feature | Notes | Summary |
 |---|---|---|
 | Courses | `GetCertified/Courses/CLAUDE.md` | Course catalog. Uses View → Controller → Service layering and owns the `Course` model and `courses.json`. |
+| Home | `GetCertified/Home/CLAUDE.md` | Landing tab with placeholder sections: a hero banner, "Popular Courses" and "New Courses" rows, and a tip of the day. It has no data layer yet. |
 | Book | `GetCertified/Book/CLAUDE.md` | A cart of trainings the user added, saved locally as JSON, with a "Submit Request" action (still TODO). Uses View → Controller → Service layering. |
 
 The `Course` model belongs to Courses, but other features use it too. State shared across features lives in controllers that the `App` (`GetCertified.swift`) owns and injects with `.environment(_:)`. For now that is only `BookController`, which "Add to training" in Courses writes to and Book reads from.

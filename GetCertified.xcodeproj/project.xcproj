@@ -23,6 +23,7 @@
           "exclusions": [
             "Book/CLAUDE.md",
             "Courses/CLAUDE.md",
+            "Home/CLAUDE.md",
           ],
         },
       ],
