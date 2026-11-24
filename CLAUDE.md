@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The project uses Xcode 27's JSON project format (`GetCertified.xcodeproj/project.xcproj`), not a `project.pbxproj`. The `GetCertified/` folder is a synchronized folder reference, so a new `.swift` or resource file inside it joins the target automatically. Don't edit the project file to register files.
 
-That automatic membership also covers non-code files. Every `CLAUDE.md` inside `GetCertified/` must be listed in the folder's `membership-exceptions` → `exclusions` in `project.xcproj`. If one isn't, it gets copied into the app bundle, and two of them make the build fail with "Multiple commands produce …/CLAUDE.md". After editing the project file, normalize it with `$(xcode-select -p)/usr/bin/xcprojformatter --update GetCertified.xcodeproj`.
+That automatic membership also covers non-code files. Every `CLAUDE.md` inside `GetCertified/` must be listed in the folder's `membership-exceptions` → `exclusions` in `project.xcproj`. If one isn't, it gets copied into the app bundle, and two of them make the build fail with "Multiple commands produce …/CLAUDE.md". `GetCertified/Info.plist` is excluded the same way. It is merged with the generated Info.plist (`INFOPLIST_FILE` + `GENERATE_INFOPLIST_FILE`) and holds only keys that build settings can't express, currently the `UILaunchScreen` dictionary (`AccentColor` background, `LaunchLogo` image). The app icon is `GetCertified/AppIcon.icon` (Icon Composer). After editing the project file, normalize it with `$(xcode-select -p)/usr/bin/xcprojformatter --update GetCertified.xcodeproj`.
 
 ## Compiler settings that affect how code is written
 
