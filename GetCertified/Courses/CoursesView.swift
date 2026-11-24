@@ -22,7 +22,7 @@ struct CoursesView: View {
           ForEach(filteredItems) { course in
             NavigationLink(value: course) {
               RoundedRectangle(cornerRadius: 16)
-                .fill(.quaternary)
+                .fill(.tint.quaternary)
                 .aspectRatio(1, contentMode: .fit)
                 .overlay { Text(course.name).foregroundStyle(.primary) }
             }

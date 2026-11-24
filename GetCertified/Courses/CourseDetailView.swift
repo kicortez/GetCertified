@@ -13,7 +13,7 @@ struct CourseDetailView: View {
         AsyncImage(url: URL(string: course.image)) { image in
           image.resizable().scaledToFill()
         } placeholder: {
-          Rectangle().fill(.quaternary)
+          Rectangle().fill(.tint.quaternary)
         }
         .frame(height: 200)
         .clipShape(RoundedRectangle(cornerRadius: 16))

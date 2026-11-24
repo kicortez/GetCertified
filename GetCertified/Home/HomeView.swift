@@ -74,7 +74,7 @@ struct HomeView: View {
 
   private func courseCard(_ course: Course) -> some View {
     RoundedRectangle(cornerRadius: 16)
-      .fill(.quaternary)
+      .fill(.tint.quaternary)
       .frame(width: 160, height: 120)
       .overlay { Text(course.name).font(.caption).foregroundStyle(.primary) }
   }
@@ -87,13 +87,13 @@ struct HomeView: View {
         HStack(alignment: .top, spacing: 12) {
           Image(systemName: "lightbulb")
             .font(.title2)
-            .foregroundStyle(.yellow)
+            .foregroundStyle(.tint)
           Text(tip.text)
             .font(.body)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 16))
+        .background(.tint.quaternary, in: RoundedRectangle(cornerRadius: 16))
         .padding(.horizontal, 16)
       }
     }
