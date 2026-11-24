@@ -29,9 +29,9 @@ Each feature folder has its own `CLAUDE.md`, which Claude Code loads when it wor
 |---|---|---|
 | Courses | `GetCertified/Courses/CLAUDE.md` | Course catalog. Uses View → Controller → Service layering and owns the `Course` model and `courses.json`. |
 | Home | `GetCertified/Home/CLAUDE.md` | Landing tab: a hero banner, "Popular Courses" and "New Courses" rows, and a tip of the day. Each section has its own Controller → Service that reads bundled JSON in `Home/Resources/`. |
-| Book | `GetCertified/Book/CLAUDE.md` | A cart of trainings the user added, saved locally as JSON, with a "Submit Request" action (still TODO). Uses View → Controller → Service layering. |
+| Book | `GetCertified/Book/CLAUDE.md` | A training list the user builds from Courses, saved locally as JSON, with a "Submit Request" sheet that sends it through a mock booking service. Uses View → Controller → Service layering. |
 
-The `Course` model belongs to Courses, but other features use it too. State shared across features lives in controllers that the `App` (`GetCertified.swift`) owns and injects with `.environment(_:)`. For now that is only `BookController`, which "Add to training" in Courses writes to and Book reads from.
+The `Course` model belongs to Courses, but other features use it too. State shared across features lives in controllers that the `App` (`GetCertified.swift`) owns and injects with `.environment(_:)`. For now that is only `TrainingListController`, which "Add to training" in Courses writes to and Book reads from.
 
 New features should follow the Courses layering, and each new feature folder gets its own `CLAUDE.md`.
 

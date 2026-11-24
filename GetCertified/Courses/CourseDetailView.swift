@@ -3,9 +3,9 @@ import SwiftUI
 struct CourseDetailView: View {
   let course: Course
 
-  @Environment(BookController.self) private var bookController
+  @Environment(TrainingListController.self) private var trainingListController
 
-  private var isAdded: Bool { bookController.contains(course) }
+  private var isAdded: Bool { trainingListController.contains(course) }
 
   var body: some View {
     ScrollView {
@@ -50,14 +50,14 @@ struct CourseDetailView: View {
     Group {
       if isAdded {
         Button(role: .destructive) {
-          Task { await bookController.remove(course) }
+          Task { await trainingListController.remove(course) }
         } label: {
           Text("Remove from training").frame(maxWidth: .infinity)
         }
         .buttonStyle(.bordered)
       } else {
         Button {
-          Task { await bookController.add(course) }
+          Task { await trainingListController.add(course) }
         } label: {
           Text("Add to training").frame(maxWidth: .infinity)
         }

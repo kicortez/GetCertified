@@ -2,12 +2,12 @@ import Foundation
 import Observation
 
 @Observable
-final class BookController {
-  @ObservationIgnored private let service: BookServiceProtocol
+final class TrainingListController {
+  @ObservationIgnored private let service: TrainingListServiceProtocol
 
   private(set) var courses: [Course] = []
 
-  init(service: BookServiceProtocol) {
+  init(service: TrainingListServiceProtocol) {
     self.service = service
   }
 

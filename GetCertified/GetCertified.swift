@@ -1,13 +1,13 @@
 import SwiftUI
 
 @main struct GetCertified: App {
-  @State private var bookController = BookController(service: BookService())
+  @State private var trainingListController = TrainingListController(service: TrainingListService())
 
   var body: some Scene {
     WindowGroup {
       RootView()
-        .environment(bookController)
-        .task { await bookController.fetchCourses() }
+        .environment(trainingListController)
+        .task { await trainingListController.fetchCourses() }
     }
   }
 }

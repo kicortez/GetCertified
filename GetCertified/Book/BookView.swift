@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct BookView: View {
-  @Environment(BookController.self) private var controller
+  @Environment(TrainingListController.self) private var controller
   @State private var editMode: EditMode = .inactive
   @State private var pendingDeletion: [Course] = []
   @State private var isConfirmingDelete = false
+  @State private var isPresentingSubmit = false
 
   private static let hoursPerDay = 8.0
 
@@ -27,6 +28,9 @@ struct BookView: View {
     NavigationStack {
       mainContent
         .navigationTitle("Book")
+    }
+    .sheet(isPresented: $isPresentingSubmit) {
+      SubmitRequestView(courses: courses)
     }
   }
 
@@ -85,7 +89,7 @@ struct BookView: View {
 
   private var submitButton: some View {
     Button {
-      // TODO: submit booking request
+      isPresentingSubmit = true
     } label: {
       Text("Submit Request").frame(maxWidth: .infinity)
     }

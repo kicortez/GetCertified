@@ -1,13 +1,13 @@
 import Foundation
 
-protocol BookServiceProtocol {
+protocol TrainingListServiceProtocol {
   func fetchSelectedCourses() async throws -> [Course]
   func save(_ courses: [Course]) throws
   func add(_ course: Course) async throws -> [Course]
   func remove(ids: Set<Course.ID>) async throws -> [Course]
 }
 
-struct BookService: BookServiceProtocol {
+struct TrainingListService: TrainingListServiceProtocol {
   private var fileURL: URL {
     URL.applicationSupportDirectory.appending(path: "booked-courses.json")
   }
