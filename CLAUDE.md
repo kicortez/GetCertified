@@ -4,7 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-"Get Certified" is a SwiftUI app for browsing training and certification courses and booking them. It is a single app target (`GetCertified`) built for iPhone, iPad and visionOS (`TARGETED_DEVICE_FAMILY` 1,2,7). The target's deployment target is iOS 18.0. There are no third-party dependencies, no test target and no lint config yet.
+"Get Certified" is a SwiftUI app for browsing training and certification courses and booking them. It has an app target (`GetCertified`) built for iPhone, iPad and visionOS (`TARGETED_DEVICE_FAMILY` 1,2,7), and a unit test target (`GetCertifiedTests`). Both deploy to iOS 18.0. There are no third-party dependencies and no lint config yet.
+
+## Tests
+
+`GetCertifiedTests/` uses Swift Testing (`import Testing`, `@Test`, `#expect`) with `@testable import GetCertified`. It is a synchronized folder for the test target and mirrors the feature folders (`Book/`), with shared helpers in `Support/`: `Course.fixture(...)`, `temporaryFileURL()`, and fake services (`FailingTrainingListService`, `RecordingBookingService`). Test controllers through their service protocols. Anything that writes to disk takes a temporary location, so tests never touch the app's real data.
+
+Run them with the `GetCertifiedTests` scheme:
+
+```bash
+xcodebuild test -project GetCertified.xcodeproj -scheme GetCertifiedTests -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
+```
+
+The test target is hosted by the app. In `project.xcproj` it needs `test-host-target` and `dependencies` set to `GetCertified`, plus the `TEST_HOST` and `BUNDLE_LOADER` build settings. Without them it fails to link or to find the module on a clean build.
 
 ## Project file
 

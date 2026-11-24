@@ -1,0 +1,23 @@
+import Foundation
+@testable import GetCertified
+
+struct TestError: Error {}
+
+/// A training list service whose every call fails.
+struct FailingTrainingListService: TrainingListServiceProtocol {
+  func fetchSelectedCourses() async throws -> [Course] { throw TestError() }
+  func save(_ courses: [Course]) throws { throw TestError() }
+  func add(_ course: Course) async throws -> [Course] { throw TestError() }
+  func remove(ids: Set<Course.ID>) async throws -> [Course] { throw TestError() }
+}
+
+/// A booking service that records the request it receives.
+final class RecordingBookingService: BookingServiceProtocol {
+  private(set) var requests: [BookingRequest] = []
+  var result: Result<BookingConfirmation, Error> = .success(BookingConfirmation(reference: "GC-TEST01"))
+
+  func submit(_ request: BookingRequest) async throws -> BookingConfirmation {
+    requests.append(request)
+    return try result.get()
+  }
+}

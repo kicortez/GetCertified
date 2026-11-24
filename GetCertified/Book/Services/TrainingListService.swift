@@ -8,8 +8,13 @@ protocol TrainingListServiceProtocol {
 }
 
 struct TrainingListService: TrainingListServiceProtocol {
-  private var fileURL: URL {
-    URL.applicationSupportDirectory.appending(path: "booked-courses.json")
+  static let defaultFileURL = URL.applicationSupportDirectory.appending(path: "booked-courses.json")
+
+  /// Where the list is stored. Tests pass a temporary location.
+  private let fileURL: URL
+
+  init(fileURL: URL = Self.defaultFileURL) {
+    self.fileURL = fileURL
   }
 
   func fetchSelectedCourses() async throws -> [Course] {
@@ -20,7 +25,7 @@ struct TrainingListService: TrainingListServiceProtocol {
 
   func save(_ courses: [Course]) throws {
     try FileManager.default.createDirectory(
-      at: .applicationSupportDirectory, withIntermediateDirectories: true)
+      at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
     let data = try JSONEncoder().encode(courses)
     try data.write(to: fileURL, options: .atomic)
   }
