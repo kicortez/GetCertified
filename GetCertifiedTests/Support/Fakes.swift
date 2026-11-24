@@ -21,3 +21,24 @@ final class RecordingBookingService: BookingServiceProtocol {
     return try result.get()
   }
 }
+
+/// A course catalog that returns `result` instead of reading `courses.json`.
+struct StubCourseService: CourseServiceProtocol {
+  var result: Result<[Course], Error>
+  func fetchCourses() async throws -> [Course] { try result.get() }
+}
+
+struct StubCourseRowService: CourseRowServiceProtocol {
+  var result: Result<[Course], Error>
+  func fetchCourses() async throws -> [Course] { try result.get() }
+}
+
+struct StubHeroBannerService: HeroBannerServiceProtocol {
+  var result: Result<HeroBanner, Error>
+  func fetchBanner() async throws -> HeroBanner { try result.get() }
+}
+
+struct StubTipService: TipServiceProtocol {
+  var result: Result<Tip, Error>
+  func fetchTipOfTheDay() async throws -> Tip { try result.get() }
+}
