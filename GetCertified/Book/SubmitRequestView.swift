@@ -6,8 +6,8 @@ struct SubmitRequestView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var controller: SubmitRequestController
 
-  init(courses: [Course], service: BookingServiceProtocol = MockBookingService()) {
-    _controller = State(initialValue: SubmitRequestController(courses: courses, service: service))
+  init(items: [TrainingListItem], service: BookingServiceProtocol = MockBookingService()) {
+    _controller = State(initialValue: SubmitRequestController(items: items, service: service))
   }
 
   private var isSubmitting: Bool { controller.status == .submitting }
@@ -84,13 +84,13 @@ struct SubmitRequestView: View {
 
   private var trainingsSection: some View {
     Section {
-      ForEach(controller.courses) { course in
-        LabeledContent(course.name, value: "\(course.hours) hrs")
+      ForEach(controller.items) { item in
+        LabeledContent(item.name, value: "\(item.hours) hrs")
       }
     } header: {
       Text("Trainings")
     } footer: {
-      Text("\(controller.courses.count) trainings · \(controller.totalHours) hours total")
+      Text("\(controller.items.count) trainings · \(controller.totalHours) hours total")
     }
   }
 
@@ -152,6 +152,6 @@ struct SubmitRequestView: View {
 
   private func submit() async {
     guard await controller.submit() != nil else { return }
-    await trainingListController.remove(ids: Set(controller.courses.map(\.id)))
+    await trainingListController.remove(ids: Set(controller.items.map(\.id)))
   }
 }

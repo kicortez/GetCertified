@@ -9,6 +9,12 @@ extension Course {
   }
 }
 
+extension TrainingListItem {
+  static func fixture(id: String = "course-1", name: String = "Course", hours: Int = 8) -> TrainingListItem {
+    TrainingListItem(Course.fixture(id: id, name: name, hours: hours))
+  }
+}
+
 /// A unique file location in the temporary directory, so tests never touch the app's real data.
 func temporaryFileURL() -> URL {
   URL.temporaryDirectory

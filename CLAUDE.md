@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Tests
 
-`GetCertifiedTests/` uses Swift Testing (`import Testing`, `@Test`, `#expect`) with `@testable import GetCertified`. It is a synchronized folder for the test target and mirrors the feature folders (`Book/`, `Courses/`, `Home/`), with shared helpers in `Support/`: `Course.fixture(...)`, `temporaryFileURL()`, and fake services (`Stub*Service` types that return a `Result`, `FailingTrainingListService`, `RecordingBookingService`). Test controllers through their service protocols. Test a service only when it holds logic that runs on the device (today only `TrainingListService`). Don't write tests for services that only load bundled JSON or mock a backend call, and don't write tests that assert on bundled content (see `docs/decisions/0007-test-controllers-and-on-device-logic.md`). Anything that writes to disk takes a temporary location, so tests never touch the app's real data.
+`GetCertifiedTests/` uses Swift Testing (`import Testing`, `@Test`, `#expect`) with `@testable import GetCertified`. It is a synchronized folder for the test target and mirrors the feature folders (`Book/`, `Courses/`, `Home/`), with shared helpers in `Support/`: `Course.fixture(...)`, `TrainingListItem.fixture(...)`, `temporaryFileURL()`, and fake services (`Stub*Service` types that return a `Result`, `FailingTrainingListService`, `RecordingBookingService`). Test controllers through their service protocols. Test a service only when it holds logic that runs on the device (today only `TrainingListService`). Don't write tests for services that only load bundled JSON or mock a backend call, and don't write tests that assert on bundled content (see `docs/decisions/0007-test-controllers-and-on-device-logic.md`). Anything that writes to disk takes a temporary location, so tests never touch the app's real data.
 
 Run them with the `GetCertifiedTests` scheme:
 
@@ -45,7 +45,7 @@ Each feature folder has its own `CLAUDE.md`, which Claude Code loads when it wor
 | Home | `GetCertified/Home/CLAUDE.md` | Landing tab: a hero banner, "Popular Courses" and "New Courses" rows, and a tip of the day. Each section has its own Controller → Service that reads bundled JSON in `Home/Resources/`. |
 | Book | `GetCertified/Book/CLAUDE.md` | A training list the user builds from Courses, saved locally as JSON, with a "Submit Request" sheet that sends it through a mock booking service. Uses View → Controller → Service layering. |
 
-The `Course` model belongs to Courses, but other features use it too. State shared across features lives in controllers that the `App` (`GetCertified.swift`) owns and injects with `.environment(_:)`. For now that is only `TrainingListController`, which "Add to training" in Courses writes to and Book reads from.
+The `Course` model belongs to Courses, but other features use it too. State shared across features lives in controllers that the `App` (`GetCertified.swift`) owns and injects with `.environment(_:)`. For now that is only `TrainingListController`, which "Add to training" in Courses writes to and Book reads from. Book saves its own `TrainingListItem` snapshot rather than `Course`.
 
 New features should follow the Courses layering, and each new feature folder gets its own `CLAUDE.md`.
 

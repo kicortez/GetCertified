@@ -5,41 +5,41 @@ import Observation
 final class TrainingListController {
   @ObservationIgnored private let service: TrainingListServiceProtocol
 
-  private(set) var courses: [Course] = []
+  private(set) var items: [TrainingListItem] = []
 
   init(service: TrainingListServiceProtocol) {
     self.service = service
   }
 
-  func fetchCourses() async {
+  func fetchItems() async {
     do {
-      courses = try await service.fetchSelectedCourses()
+      items = try await service.fetchItems()
     } catch {
-      print("Failed to fetch selected courses: \(error)")
+      print("Failed to fetch training list: \(error)")
     }
   }
 
   func contains(_ course: Course) -> Bool {
-    courses.contains { $0.id == course.id }
+    items.contains { $0.id == course.id }
   }
 
   func add(_ course: Course) async {
     do {
-      courses = try await service.add(course)
+      items = try await service.add(TrainingListItem(course))
     } catch {
       print("Failed to add course: \(error)")
     }
   }
 
-  func remove(_ course: Course) async {
-    await remove(ids: [course.id])
+  func remove(_ item: TrainingListItem) async {
+    await remove(ids: [item.id])
   }
 
-  func remove(ids: Set<Course.ID>) async {
+  func remove(ids: Set<TrainingListItem.ID>) async {
     do {
-      courses = try await service.remove(ids: ids)
+      items = try await service.remove(ids: ids)
     } catch {
-      print("Failed to remove courses: \(error)")
+      print("Failed to remove trainings: \(error)")
     }
   }
 }

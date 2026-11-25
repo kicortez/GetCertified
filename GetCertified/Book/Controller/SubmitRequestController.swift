@@ -13,7 +13,7 @@ final class SubmitRequestController {
 
   @ObservationIgnored private let service: BookingServiceProtocol
 
-  let courses: [Course]
+  let items: [TrainingListItem]
 
   var name = ""
   var email = ""
@@ -27,8 +27,8 @@ final class SubmitRequestController {
   /// The earliest start date the user can pick: tomorrow.
   let earliestStartDate: Date
 
-  init(courses: [Course], service: BookingServiceProtocol, now: Date = .now) {
-    self.courses = courses
+  init(items: [TrainingListItem], service: BookingServiceProtocol, now: Date = .now) {
+    self.items = items
     self.service = service
     let calendar = Calendar.current
     let today = calendar.startOfDay(for: now)
@@ -36,7 +36,7 @@ final class SubmitRequestController {
     preferredStartDate = calendar.date(byAdding: .day, value: 7, to: today) ?? today
   }
 
-  var totalHours: Int { courses.reduce(0) { $0 + $1.hours } }
+  var totalHours: Int { items.reduce(0) { $0 + $1.hours } }
 
   var isEmailValid: Bool {
     let parts = trimmed(email).split(separator: "@")
@@ -44,7 +44,7 @@ final class SubmitRequestController {
   }
 
   var canSubmit: Bool {
-    status != .submitting && !courses.isEmpty && !trimmed(name).isEmpty && isEmailValid
+    status != .submitting && !items.isEmpty && !trimmed(name).isEmpty && isEmailValid
   }
 
   /// Sends the request. Returns the confirmation on success so the caller can clear the training list.
@@ -69,7 +69,7 @@ final class SubmitRequestController {
 
   private func makeRequest() -> BookingRequest {
     BookingRequest(
-      courseIDs: courses.map(\.id),
+      courseIDs: items.map(\.id),
       name: trimmed(name),
       email: trimmed(email),
       phone: trimmed(phone),

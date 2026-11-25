@@ -1,6 +1,6 @@
 # 0003: Store full course snapshots in the training list, not IDs
 
-- **Status:** Superseded by [0008](0008-store-slim-cart-snapshots.md) (still in the code until 0008 is implemented)
+- **Status:** Superseded by [0008](0008-store-slim-cart-snapshots.md)
 - **Date:** 2026-11-20
 
 ## Context

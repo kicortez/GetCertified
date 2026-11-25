@@ -50,7 +50,7 @@ struct CourseDetailView: View {
     Group {
       if isAdded {
         Button(role: .destructive) {
-          Task { await trainingListController.remove(course) }
+          Task { await trainingListController.remove(ids: [course.id]) }
         } label: {
           Text("Remove from training").frame(maxWidth: .infinity)
         }

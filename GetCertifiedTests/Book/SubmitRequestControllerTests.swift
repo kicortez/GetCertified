@@ -3,13 +3,13 @@ import Testing
 @testable import GetCertified
 
 struct SubmitRequestControllerTests {
-  private let courses: [Course] = [.fixture(id: "a", hours: 8), .fixture(id: "b", hours: 16)]
+  private let items: [TrainingListItem] = [.fixture(id: "a", hours: 8), .fixture(id: "b", hours: 16)]
   private let service = RecordingBookingService()
 
   private func makeController(
-    courses: [Course]? = nil, now: Date = .now
+    items: [TrainingListItem]? = nil, now: Date = .now
   ) -> SubmitRequestController {
-    SubmitRequestController(courses: courses ?? self.courses, service: service, now: now)
+    SubmitRequestController(items: items ?? self.items, service: service, now: now)
   }
 
   private func makeFilledController() -> SubmitRequestController {
@@ -54,7 +54,7 @@ struct SubmitRequestControllerTests {
   }
 
   @Test func cannotSubmitWithoutCourses() {
-    let controller = makeController(courses: [])
+    let controller = makeController(items: [])
     controller.name = "Juan"
     controller.email = "juan@example.com"
     #expect(!controller.canSubmit)

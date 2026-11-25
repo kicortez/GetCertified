@@ -3,14 +3,14 @@ import SwiftUI
 struct BookView: View {
   @Environment(TrainingListController.self) private var controller
   @State private var editMode: EditMode = .inactive
-  @State private var pendingDeletion: [Course] = []
+  @State private var pendingDeletion: [TrainingListItem] = []
   @State private var isConfirmingDelete = false
   @State private var isPresentingSubmit = false
 
   private static let hoursPerDay = 8.0
 
-  private var courses: [Course] { controller.courses }
-  private var totalHours: Int { courses.reduce(0) { $0 + $1.hours } }
+  private var items: [TrainingListItem] { controller.items }
+  private var totalHours: Int { items.reduce(0) { $0 + $1.hours } }
   private var totalDays: Double { Double(totalHours) / Self.hoursPerDay }
 
   private var totalDaysText: String {
@@ -18,8 +18,8 @@ struct BookView: View {
   }
 
   private var confirmationTitle: String {
-    if pendingDeletion.count == 1, let course = pendingDeletion.first {
-      return "Remove \"\(course.name)\"?"
+    if pendingDeletion.count == 1, let item = pendingDeletion.first {
+      return "Remove \"\(item.name)\"?"
     }
     return "Remove \(pendingDeletion.count) courses?"
   }
@@ -30,42 +30,42 @@ struct BookView: View {
         .navigationTitle("Book")
     }
     .sheet(isPresented: $isPresentingSubmit) {
-      SubmitRequestView(courses: courses)
+      SubmitRequestView(items: items)
     }
   }
 
   @ViewBuilder
   private var mainContent: some View {
-    if courses.isEmpty {
+    if items.isEmpty {
       ContentUnavailableView(
         "No Trainings Added",
         systemImage: "book",
         description: Text("Add trainings from Courses to see them here."))
     } else {
-      courseList
+      trainingList
     }
   }
 
-  private var courseList: some View {
+  private var trainingList: some View {
     List {
       Section { summary }
       Section("Selected Trainings") {
-        ForEach(courses) { course in
-          courseRow(course)
+        ForEach(items) { item in
+          itemRow(item)
         }
         .onDelete { offsets in
-          pendingDeletion = offsets.map { courses[$0] }
+          pendingDeletion = offsets.map { items[$0] }
           isConfirmingDelete = true
         }
       }
     }
-    .animation(.default, value: courses)
+    .animation(.default, value: items)
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
         Button(editMode.isEditing ? "Done" : "Edit") {
           withAnimation { editMode = editMode.isEditing ? .inactive : .active }
         }
-        .disabled(courses.isEmpty)
+        .disabled(items.isEmpty)
       }
     }
     .safeAreaInset(edge: .bottom) { submitButton }
@@ -80,7 +80,7 @@ struct BookView: View {
         pendingDeletion = []
         Task {
           await controller.remove(ids: ids)
-          if courses.isEmpty { editMode = .inactive }
+          if items.isEmpty { editMode = .inactive }
         }
       }
       Button("Cancel", role: .cancel) { pendingDeletion = [] }
@@ -100,13 +100,13 @@ struct BookView: View {
     .background(.bar)
   }
 
-  private func courseRow(_ course: Course) -> some View {
+  private func itemRow(_ item: TrainingListItem) -> some View {
     VStack(alignment: .leading, spacing: 4) {
-      Text(course.name).font(.headline)
-      if let subtitle = course.subtitle {
+      Text(item.name).font(.headline)
+      if let subtitle = item.subtitle {
         Text(subtitle).font(.subheadline).foregroundStyle(.secondary)
       }
-      Text("\(course.hours) hrs · \(course.category)")
+      Text("\(item.hours) hrs · \(item.category)")
         .font(.caption)
         .foregroundStyle(.secondary)
     }
@@ -115,7 +115,7 @@ struct BookView: View {
 
   private var summary: some View {
     HStack {
-      summaryItem(value: "\(courses.count)", label: courses.count == 1 ? "Training" : "Trainings")
+      summaryItem(value: "\(items.count)", label: items.count == 1 ? "Training" : "Trainings")
       Divider()
       summaryItem(value: totalDaysText, label: totalDays == 1 ? "Day" : "Days")
       Divider()

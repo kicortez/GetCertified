@@ -36,7 +36,7 @@ Concurrency: the target uses `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`, so UI-
 |---|---|---|
 | [Rebuild in SwiftUI instead of porting](docs/decisions/0001-rebuild-instead-of-port.md) | The source was gone, and most findings were structural (navigation, layout, flow), not cosmetic. | The new app has no code lineage with the old one, so "before" can only be compared by behavior. |
 | [Protocol seam on every service, including static JSON](docs/decisions/0002-protocol-seam-on-every-service.md) | Controllers can be tested with fakes, and a backend can be added without touching UI. | More types than a JSON-only app strictly needs. |
-| [The training list stores course snapshots, not IDs](docs/decisions/0003-store-course-snapshots.md) | The list renders without the catalog, and a course removed from the catalog doesn't silently drop out of the cart. | Saved details can go stale. Today it saves full `Course` values, so changing the model can break saved carts. A slim snapshot of only the displayed fields is planned ([0008](docs/decisions/0008-store-slim-cart-snapshots.md)). |
+| [The training list stores a slim snapshot of each course, not IDs](docs/decisions/0008-store-slim-cart-snapshots.md) | The list renders without the catalog, a course removed from the catalog doesn't silently drop out of the cart, and changes to `Course` can't break saved carts because Book saves only the fields it displays. | Saved details can go stale. It replaced storing full `Course` values ([0003](docs/decisions/0003-store-course-snapshots.md)). |
 
 Every decision, with the alternatives that were considered, is recorded in the [decision log](docs/decisions/).
 

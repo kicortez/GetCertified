@@ -1,6 +1,6 @@
 # 0008: Store a slim snapshot of displayed fields in the training list
 
-- **Status:** Accepted (not yet implemented)
+- **Status:** Accepted
 - **Date:** 2026-11-25
 
 ## Context

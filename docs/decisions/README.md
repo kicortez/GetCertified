@@ -8,12 +8,12 @@ Records 0001–0007 were written retroactively on 2026-11-25, from the code and 
 |---|---|---|
 | [0001](0001-rebuild-instead-of-port.md) | Rebuild in SwiftUI instead of porting the 2014 app | Accepted |
 | [0002](0002-protocol-seam-on-every-service.md) | Put a protocol seam on every service, including static JSON | Accepted |
-| [0003](0003-store-course-snapshots.md) | Store full course snapshots in the training list, not IDs | Superseded by 0008 (still in the code) |
+| [0003](0003-store-course-snapshots.md) | Store full course snapshots in the training list, not IDs | Superseded by 0008 |
 | [0004](0004-cart-rules-in-service.md) | Keep cart rules in the service, not the controller | Accepted |
 | [0005](0005-book-summary-at-top.md) | Put the Book summary at the top of the list | Accepted |
 | [0006](0006-confirm-every-deletion.md) | Confirm every deletion from the training list | Superseded by 0010 (still in the code) |
 | [0007](0007-test-controllers-and-on-device-logic.md) | Test controllers with fakes; test services only where they hold on-device logic | Accepted |
-| [0008](0008-store-slim-cart-snapshots.md) | Store a slim snapshot of displayed fields in the training list | Accepted (not yet implemented) |
+| [0008](0008-store-slim-cart-snapshots.md) | Store a slim snapshot of displayed fields in the training list | Accepted |
 | [0009](0009-summary-in-service.md) | Compute the training summary in the service | Accepted (not yet implemented) |
 | [0010](0010-remove-button-no-confirmation.md) | Remove trainings with a per-row button and swipe, without confirmation | Accepted (not yet implemented) |
 
@@ -23,7 +23,6 @@ Records 0001–0007 were written retroactively on 2026-11-25, from the code and 
 
 One phase, since all of it touches `TrainingListService` and `BookView`:
 
-- [0008](0008-store-slim-cart-snapshots.md): a slim snapshot type in Book, mapped from `Course` on add, with an empty-cart fallback when decoding fails.
 - [0009](0009-summary-in-service.md): the service returns the list with its summary (count, hours, days at 8 hours per day). `BookView` and the Submit Request sheet stop calculating totals.
 - [0010](0010-remove-button-no-confirmation.md): a per-row Remove button plus swipe, with no confirmation and no Edit mode.
 - [0007](0007-test-controllers-and-on-device-logic.md): rewrite the `TrainingListService` and `TrainingListController` tests for the new API.
