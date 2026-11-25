@@ -3,25 +3,28 @@ import Testing
 @testable import GetCertified
 
 struct CourseControllerTests {
-  @Test func startsEmpty() {
+  @Test func startsLoading() {
     let controller = CourseController(service: StubCourseService(result: .success([.fixture()])))
-    #expect(controller.courses.isEmpty)
+    #expect(controller.state == .loading)
   }
 
-  @Test func fetchPublishesCourses() async {
+  @Test func fetchSucceeds() async {
     let courses: [Course] = [.fixture(id: "a"), .fixture(id: "b")]
     let controller = CourseController(service: StubCourseService(result: .success(courses)))
 
     await controller.fetchCourses()
 
-    #expect(controller.courses == courses)
+    #expect(controller.state == .success(courses))
   }
 
-  @Test func failedFetchLeavesCoursesEmpty() async {
+  @Test func failedFetchSetsError() async {
     let controller = CourseController(service: StubCourseService(result: .failure(TestError())))
 
     await controller.fetchCourses()
 
-    #expect(controller.courses.isEmpty)
+    guard case .error = controller.state else {
+      Issue.record("Expected .error, got \(controller.state)")
+      return
+    }
   }
 }

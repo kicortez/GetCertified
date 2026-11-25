@@ -44,7 +44,7 @@ Every decision, with the alternatives that were considered, is recorded in the [
 
 These are deliberate cuts for now, listed so the gaps aren't a surprise:
 
-- Catalog and Home load failures are logged, not shown. There are no loading or error states outside Submit Request.
+- Home load failures are logged, not shown. Only the Courses catalog and Submit Request have loading and error states.
 - Course images are placeholders.
 - Training-list file I/O runs on the main actor. That's fine at this size, and it's the first thing to move off the main actor if the list grows.
 - Booking goes to `MockBookingService`. No request leaves the device.

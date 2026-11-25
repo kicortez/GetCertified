@@ -17,6 +17,7 @@ Records 0001–0007 were written retroactively on 2026-11-25, from the code and 
 | [0009](0009-summary-in-service.md) | Compute the training summary in the service | Accepted |
 | [0010](0010-remove-button-no-confirmation.md) | Remove trainings with a per-row button and swipe, without confirmation | Superseded by 0011 |
 | [0011](0011-swipe-only-removal.md) | Remove trainings by swipe only, without confirmation | Accepted |
+| [0012](0012-course-load-state-enum.md) | Model the course catalog load as a single state enum | Accepted |
 
 ## Adding a record
 
