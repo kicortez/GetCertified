@@ -23,10 +23,10 @@ struct TrainingListControllerTests {
     #expect(controller.items.count == 1)
   }
 
-  @Test func removeSingleAndMany() async {
+  @Test func removeOneThenMany() async {
     for id in ["a", "b", "c"] { await controller.add(.fixture(id: id)) }
 
-    await controller.remove(TrainingListItem.fixture(id: "b"))
+    await controller.remove(ids: ["b"])
     #expect(controller.items.map(\.id) == ["a", "c"])
 
     await controller.remove(ids: ["a", "c"])

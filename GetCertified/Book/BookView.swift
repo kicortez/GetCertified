@@ -2,9 +2,6 @@ import SwiftUI
 
 struct BookView: View {
   @Environment(TrainingListController.self) private var controller
-  @State private var editMode: EditMode = .inactive
-  @State private var pendingDeletion: [TrainingListItem] = []
-  @State private var isConfirmingDelete = false
   @State private var isPresentingSubmit = false
 
   private var items: [TrainingListItem] { controller.items }
@@ -12,13 +9,6 @@ struct BookView: View {
 
   private var daysText: String {
     summary.days.formatted(.number.precision(.fractionLength(0...1)))
-  }
-
-  private var confirmationTitle: String {
-    if pendingDeletion.count == 1, let item = pendingDeletion.first {
-      return "Remove \"\(item.name)\"?"
-    }
-    return "Remove \(pendingDeletion.count) courses?"
   }
 
   var body: some View {
@@ -51,37 +41,13 @@ struct BookView: View {
           itemRow(item)
         }
         .onDelete { offsets in
-          pendingDeletion = offsets.map { items[$0] }
-          isConfirmingDelete = true
+          let ids = Set(offsets.map { items[$0].id })
+          Task { await controller.remove(ids: ids) }
         }
       }
     }
     .animation(.default, value: items)
-    .toolbar {
-      ToolbarItem(placement: .topBarLeading) {
-        Button(editMode.isEditing ? "Done" : "Edit") {
-          withAnimation { editMode = editMode.isEditing ? .inactive : .active }
-        }
-        .disabled(items.isEmpty)
-      }
-    }
     .safeAreaInset(edge: .bottom) { submitButton }
-    .environment(\.editMode, $editMode)
-    .confirmationDialog(
-      confirmationTitle,
-      isPresented: $isConfirmingDelete,
-      titleVisibility: .visible
-    ) {
-      Button("Delete", role: .destructive) {
-        let ids = Set(pendingDeletion.map(\.id))
-        pendingDeletion = []
-        Task {
-          await controller.remove(ids: ids)
-          if items.isEmpty { editMode = .inactive }
-        }
-      }
-      Button("Cancel", role: .cancel) { pendingDeletion = [] }
-    }
   }
 
   private var submitButton: some View {
@@ -92,7 +58,6 @@ struct BookView: View {
     }
     .buttonStyle(.borderedProminent)
     .controlSize(.large)
-    .disabled(editMode.isEditing)
     .padding(16)
     .background(.bar)
   }

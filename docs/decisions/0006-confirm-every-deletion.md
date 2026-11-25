@@ -1,6 +1,6 @@
 # 0006: Confirm every deletion from the training list
 
-- **Status:** Superseded by [0010](0010-remove-button-no-confirmation.md) (still in the code until 0010 is implemented)
+- **Status:** Superseded by [0010](0010-remove-button-no-confirmation.md)
 - **Date:** 2026-11-19
 
 ## Context

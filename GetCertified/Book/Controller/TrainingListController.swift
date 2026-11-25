@@ -34,10 +34,6 @@ final class TrainingListController {
     }
   }
 
-  func remove(_ item: TrainingListItem) async {
-    await remove(ids: [item.id])
-  }
-
   func remove(ids: Set<TrainingListItem.ID>) async {
     do {
       list = try await service.remove(ids: ids)

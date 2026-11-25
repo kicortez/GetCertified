@@ -1,6 +1,6 @@
 # 0010: Remove trainings with a per-row button and swipe, without confirmation
 
-- **Status:** Accepted (not yet implemented)
+- **Status:** Superseded by [0011](0011-swipe-only-removal.md)
 - **Date:** 2026-11-25
 
 ## Context
