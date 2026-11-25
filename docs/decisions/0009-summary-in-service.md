@@ -1,6 +1,6 @@
 # 0009: Compute the training summary in the service
 
-- **Status:** Accepted (not yet implemented)
+- **Status:** Accepted
 - **Date:** 2026-11-25
 
 ## Context

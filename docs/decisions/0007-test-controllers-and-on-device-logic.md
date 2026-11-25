@@ -25,4 +25,3 @@ Option 4. Tests cover client behavior: controllers through their protocols, usin
 - Mistakes in the bundled content aren't caught by tests. A Home row ID that's missing from the catalog shows up only as a missing card at runtime.
 - When a real backend replaces a stand-in service, its contract should be covered there, or with contract tests.
 - The tests will run in CI. A GitHub Actions workflow is planned.
-- The `TrainingListService` tests are rewritten when [0008](0008-store-slim-cart-snapshots.md) and [0009](0009-summary-in-service.md) are implemented, since both change its API.

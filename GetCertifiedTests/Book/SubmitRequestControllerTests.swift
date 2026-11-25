@@ -9,7 +9,9 @@ struct SubmitRequestControllerTests {
   private func makeController(
     items: [TrainingListItem]? = nil, now: Date = .now
   ) -> SubmitRequestController {
-    SubmitRequestController(items: items ?? self.items, service: service, now: now)
+    // The controller only passes the summary through to the view, so these tests don't need real totals.
+    let list = TrainingList(items: items ?? self.items, summary: .zero)
+    return SubmitRequestController(list: list, service: service, now: now)
   }
 
   private func makeFilledController() -> SubmitRequestController {
@@ -61,10 +63,6 @@ struct SubmitRequestControllerTests {
   }
 
   // MARK: - Defaults
-
-  @Test func totalsHours() {
-    #expect(makeController().totalHours == 24)
-  }
 
   @Test func startDatesAreRelativeToToday() throws {
     let calendar = Calendar.current

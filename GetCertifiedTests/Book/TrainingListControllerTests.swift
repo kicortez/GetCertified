@@ -38,7 +38,7 @@ struct TrainingListControllerTests {
     _ = try await TrainingListService(fileURL: fileURL).add(.fixture(id: "saved"))
 
     let controller = TrainingListController(service: TrainingListService(fileURL: fileURL))
-    await controller.fetchItems()
+    await controller.fetch()
 
     #expect(controller.items.map(\.id) == ["saved"])
   }
@@ -46,7 +46,7 @@ struct TrainingListControllerTests {
   @Test func failuresLeaveTheListUnchanged() async {
     let controller = TrainingListController(service: FailingTrainingListService())
 
-    await controller.fetchItems()
+    await controller.fetch()
     await controller.add(.fixture())
 
     #expect(controller.items.isEmpty)

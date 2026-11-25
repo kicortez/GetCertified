@@ -6,8 +6,8 @@ struct SubmitRequestView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var controller: SubmitRequestController
 
-  init(items: [TrainingListItem], service: BookingServiceProtocol = MockBookingService()) {
-    _controller = State(initialValue: SubmitRequestController(items: items, service: service))
+  init(list: TrainingList, service: BookingServiceProtocol = MockBookingService()) {
+    _controller = State(initialValue: SubmitRequestController(list: list, service: service))
   }
 
   private var isSubmitting: Bool { controller.status == .submitting }
@@ -90,7 +90,7 @@ struct SubmitRequestView: View {
     } header: {
       Text("Trainings")
     } footer: {
-      Text("\(controller.items.count) trainings · \(controller.totalHours) hours total")
+      Text("\(controller.summary.count) trainings · \(controller.summary.hours) hours total")
     }
   }
 

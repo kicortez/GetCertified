@@ -13,7 +13,10 @@ final class SubmitRequestController {
 
   @ObservationIgnored private let service: BookingServiceProtocol
 
-  let items: [TrainingListItem]
+  let list: TrainingList
+
+  var items: [TrainingListItem] { list.items }
+  var summary: TrainingList.Summary { list.summary }
 
   var name = ""
   var email = ""
@@ -27,16 +30,14 @@ final class SubmitRequestController {
   /// The earliest start date the user can pick: tomorrow.
   let earliestStartDate: Date
 
-  init(items: [TrainingListItem], service: BookingServiceProtocol, now: Date = .now) {
-    self.items = items
+  init(list: TrainingList, service: BookingServiceProtocol, now: Date = .now) {
+    self.list = list
     self.service = service
     let calendar = Calendar.current
     let today = calendar.startOfDay(for: now)
     earliestStartDate = calendar.date(byAdding: .day, value: 1, to: today) ?? today
     preferredStartDate = calendar.date(byAdding: .day, value: 7, to: today) ?? today
   }
-
-  var totalHours: Int { items.reduce(0) { $0 + $1.hours } }
 
   var isEmailValid: Bool {
     let parts = trimmed(email).split(separator: "@")

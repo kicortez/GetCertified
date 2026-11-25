@@ -14,18 +14,14 @@ Records 0001–0007 were written retroactively on 2026-11-25, from the code and 
 | [0006](0006-confirm-every-deletion.md) | Confirm every deletion from the training list | Superseded by 0010 (still in the code) |
 | [0007](0007-test-controllers-and-on-device-logic.md) | Test controllers with fakes; test services only where they hold on-device logic | Accepted |
 | [0008](0008-store-slim-cart-snapshots.md) | Store a slim snapshot of displayed fields in the training list | Accepted |
-| [0009](0009-summary-in-service.md) | Compute the training summary in the service | Accepted (not yet implemented) |
+| [0009](0009-summary-in-service.md) | Compute the training summary in the service | Accepted |
 | [0010](0010-remove-button-no-confirmation.md) | Remove trainings with a per-row button and swipe, without confirmation | Accepted (not yet implemented) |
 
 "Superseded (still in the code)" means the replacement has been decided but not built yet, so the old record still describes how the app behaves today.
 
 ## Queued for implementation
 
-One phase, since all of it touches `TrainingListService` and `BookView`:
-
-- [0009](0009-summary-in-service.md): the service returns the list with its summary (count, hours, days at 8 hours per day). `BookView` and the Submit Request sheet stop calculating totals.
 - [0010](0010-remove-button-no-confirmation.md): a per-row Remove button plus swipe, with no confirmation and no Edit mode.
-- [0007](0007-test-controllers-and-on-device-logic.md): rewrite the `TrainingListService` and `TrainingListController` tests for the new API.
 
 When an item ships, change its status to `Accepted` and update the superseded record's status note.
 

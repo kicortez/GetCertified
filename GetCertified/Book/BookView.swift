@@ -7,14 +7,11 @@ struct BookView: View {
   @State private var isConfirmingDelete = false
   @State private var isPresentingSubmit = false
 
-  private static let hoursPerDay = 8.0
-
   private var items: [TrainingListItem] { controller.items }
-  private var totalHours: Int { items.reduce(0) { $0 + $1.hours } }
-  private var totalDays: Double { Double(totalHours) / Self.hoursPerDay }
+  private var summary: TrainingList.Summary { controller.summary }
 
-  private var totalDaysText: String {
-    totalDays.formatted(.number.precision(.fractionLength(0...1)))
+  private var daysText: String {
+    summary.days.formatted(.number.precision(.fractionLength(0...1)))
   }
 
   private var confirmationTitle: String {
@@ -30,7 +27,7 @@ struct BookView: View {
         .navigationTitle("Book")
     }
     .sheet(isPresented: $isPresentingSubmit) {
-      SubmitRequestView(items: items)
+      SubmitRequestView(list: controller.list)
     }
   }
 
@@ -48,7 +45,7 @@ struct BookView: View {
 
   private var trainingList: some View {
     List {
-      Section { summary }
+      Section { summaryRow }
       Section("Selected Trainings") {
         ForEach(items) { item in
           itemRow(item)
@@ -113,13 +110,13 @@ struct BookView: View {
     .padding(.vertical, 2)
   }
 
-  private var summary: some View {
+  private var summaryRow: some View {
     HStack {
-      summaryItem(value: "\(items.count)", label: items.count == 1 ? "Training" : "Trainings")
+      summaryItem(value: "\(summary.count)", label: summary.count == 1 ? "Training" : "Trainings")
       Divider()
-      summaryItem(value: totalDaysText, label: totalDays == 1 ? "Day" : "Days")
+      summaryItem(value: daysText, label: summary.days == 1 ? "Day" : "Days")
       Divider()
-      summaryItem(value: "\(totalHours)", label: totalHours == 1 ? "Hour" : "Hours")
+      summaryItem(value: "\(summary.hours)", label: summary.hours == 1 ? "Hour" : "Hours")
     }
     .padding(.vertical, 4)
   }

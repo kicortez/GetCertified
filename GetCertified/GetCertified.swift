@@ -7,7 +7,7 @@ import SwiftUI
     WindowGroup {
       RootView()
         .environment(trainingListController)
-        .task { await trainingListController.fetchItems() }
+        .task { await trainingListController.fetch() }
     }
   }
 }
