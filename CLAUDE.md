@@ -8,13 +8,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Tests
 
-`GetCertifiedTests/` uses Swift Testing (`import Testing`, `@Test`, `#expect`) with `@testable import GetCertified`. It is a synchronized folder for the test target and mirrors the feature folders (`Book/`, `Courses/`, `Home/`), with shared helpers in `Support/`: `Course.fixture(...)`, `temporaryFileURL()`, and fake services (`Stub*Service` types that return a `Result`, `FailingTrainingListService`, `RecordingBookingService`). Test controllers through their service protocols. Anything that writes to disk takes a temporary location, so tests never touch the app's real data.
+`GetCertifiedTests/` uses Swift Testing (`import Testing`, `@Test`, `#expect`) with `@testable import GetCertified`. It is a synchronized folder for the test target and mirrors the feature folders (`Book/`, `Courses/`, `Home/`), with shared helpers in `Support/`: `Course.fixture(...)`, `temporaryFileURL()`, and fake services (`Stub*Service` types that return a `Result`, `FailingTrainingListService`, `RecordingBookingService`). Test controllers through their service protocols. Test a service only when it holds logic that runs on the device (today only `TrainingListService`). Don't write tests for services that only load bundled JSON or mock a backend call, and don't write tests that assert on bundled content (see `docs/decisions/0007-test-controllers-and-on-device-logic.md`). Anything that writes to disk takes a temporary location, so tests never touch the app's real data.
 
 Run them with the `GetCertifiedTests` scheme:
 
 ```bash
-xcodebuild test -project GetCertified.xcodeproj -scheme GetCertifiedTests -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
+xcodebuild test -project GetCertified.xcodeproj -scheme GetCertifiedTests -destination 'platform=iOS Simulator,name=<simulator>'
 ```
+
+No simulator is pinned. Pick an installed iPhone simulator from `xcrun simctl list devices available`; CI will choose its own.
 
 The test target is hosted by the app. In `project.xcproj` it needs `test-host-target` and `dependencies` set to `GetCertified`, plus the `TEST_HOST` and `BUNDLE_LOADER` build settings. Without them it fails to link or to find the module on a clean build.
 
@@ -33,7 +35,7 @@ That automatic membership also covers non-code files. Every `CLAUDE.md` inside `
 
 ## Architecture
 
-The code is organized by feature folder. `RootView` holds a `TabView` built with the `Tab` API, with three tabs: Home, which shows placeholder sections; Courses; and Book.
+The code is organized by feature folder. `RootView` holds a `TabView` built with the `Tab` API, with three tabs: Home, Courses and Book.
 
 Each feature folder has its own `CLAUDE.md`, which Claude Code loads when it works on files in that folder:
 
@@ -46,6 +48,10 @@ Each feature folder has its own `CLAUDE.md`, which Claude Code loads when it wor
 The `Course` model belongs to Courses, but other features use it too. State shared across features lives in controllers that the `App` (`GetCertified.swift`) owns and injects with `.environment(_:)`. For now that is only `TrainingListController`, which "Add to training" in Courses writes to and Book reads from.
 
 New features should follow the Courses layering, and each new feature folder gets its own `CLAUDE.md`.
+
+## Decision log
+
+Architecture and product decisions are recorded as ADRs in `docs/decisions/` (see its `README.md` for the format and the index). When a change involves a choice with a credible alternative, or one that would be costly to reverse, propose a new record from `docs/decisions/TEMPLATE.md` as part of that change and add it to the index. Don't record routine conventions; they belong in the `CLAUDE.md` files. If a change reverses an existing record, write a new record and mark the old one `Superseded by NNNN`; don't edit its reasoning. `docs/` is outside the synchronized `GetCertified/` folder, so it needs no project-file exclusion.
 
 ## Conventions
 

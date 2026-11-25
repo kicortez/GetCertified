@@ -9,7 +9,7 @@ The Book tab holds the user's training list: the trainings they added from Cours
 
 ## View
 
-- `BookView` lists `controller.courses`. The first `Section` is a summary of trainings count, total days and total hours, where days = hours ÷ `hoursPerDay`, which is 8. The summary is at the top because a bottom toolbar clashes with the tab bar. The second `Section`, "Selected Trainings", holds the added rows.
+- `BookView` lists `controller.courses`. The first `Section` is a summary of trainings count, total days and total hours, where days = hours ÷ `hoursPerDay`. The 8-hours-per-day value is a product rule (one training day is 8 hours), not a display choice. The summary is at the top so the user sees the totals first and then scrolls through the items (see `docs/decisions/0005-book-summary-at-top.md`). The second `Section`, "Selected Trainings", holds the added rows.
 - A "Submit Request" button sits in a bottom `safeAreaInset` above the tab bar. It is disabled while editing. It presents `SubmitRequestView` as a sheet. The `.sheet` is attached at the top of `body`, not to the list, so it stays presented when the training list empties after a successful submit.
 - It supports deletion through swipe (`onDelete`) and an Edit button. The Edit button drives a local `EditMode` that is passed down with `.environment(\.editMode, ...)`. Every deletion first goes into `pendingDeletion` and is confirmed with a `confirmationDialog`.
 - With no courses, the view shows `ContentUnavailableView`.
