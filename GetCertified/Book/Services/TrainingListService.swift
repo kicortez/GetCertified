@@ -2,7 +2,6 @@ import Foundation
 
 protocol TrainingListServiceProtocol {
   func fetchSelectedCourses() async throws -> [Course]
-  func save(_ courses: [Course]) throws
   func add(_ course: Course) async throws -> [Course]
   func remove(ids: Set<Course.ID>) async throws -> [Course]
 }
@@ -23,7 +22,7 @@ struct TrainingListService: TrainingListServiceProtocol {
     return try JSONDecoder().decode([Course].self, from: data)
   }
 
-  func save(_ courses: [Course]) throws {
+  private func save(_ courses: [Course]) throws {
     try FileManager.default.createDirectory(
       at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
     let data = try JSONEncoder().encode(courses)

@@ -18,7 +18,6 @@ Option 2. The service stands in for the backend, so the rules belong there. Addi
 
 ## Consequences
 
-- `save(_:)` is still on the protocol and in `FailingTrainingListService`. Making it private is queued with [0008](0008-store-slim-cart-snapshots.md).
 - Every change is a full read-modify-write of the file. That's fine for a handful of courses, but it wouldn't scale to large lists.
 - The controller repeats the duplicate check (`contains(_:)`) so the UI can show "Added". That copy is only for display; the service still enforces the rule.
 - Add and remove failures are only logged. User-facing error handling is deferred, like the other load failures listed in `README.md` → Known limitations.

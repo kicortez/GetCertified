@@ -6,7 +6,6 @@ struct TestError: Error {}
 /// A training list service whose every call fails.
 struct FailingTrainingListService: TrainingListServiceProtocol {
   func fetchSelectedCourses() async throws -> [Course] { throw TestError() }
-  func save(_ courses: [Course]) throws { throw TestError() }
   func add(_ course: Course) async throws -> [Course] { throw TestError() }
   func remove(ids: Set<Course.ID>) async throws -> [Course] { throw TestError() }
 }
