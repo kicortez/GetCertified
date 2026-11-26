@@ -3,15 +3,9 @@ import Observation
 
 @Observable
 final class CourseController {
-  enum State: Equatable {
-    case loading
-    case success([Course])
-    case error(String)
-  }
-
   @ObservationIgnored private let service: CourseServiceProtocol
 
-  private(set) var state: State = .loading
+  private(set) var state: LoadState<[Course]> = .loading
 
   init(service: CourseServiceProtocol) {
     self.service = service

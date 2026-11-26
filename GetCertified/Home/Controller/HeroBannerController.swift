@@ -5,17 +5,18 @@ import Observation
 final class HeroBannerController {
   @ObservationIgnored private let service: HeroBannerServiceProtocol
 
-  private(set) var banner: HeroBanner?
+  private(set) var state: LoadState<HeroBanner> = .loading
 
   init(service: HeroBannerServiceProtocol) {
     self.service = service
   }
 
   func fetchBanner() async {
+    state = .loading
     do {
-      banner = try await service.fetchBanner()
+      state = .success(try await service.fetchBanner())
     } catch {
-      print("Failed to fetch hero banner: \(error)")
+      state = .error(error.localizedDescription)
     }
   }
 }

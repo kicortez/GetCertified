@@ -13,8 +13,8 @@ struct HomeView: View {
       ScrollView {
         VStack(alignment: .leading, spacing: 24) {
           heroBanner
-          courseRow(title: "Popular Courses", courses: popularController.courses)
-          courseRow(title: "New Courses", courses: newController.courses)
+          courseRow(title: "Popular Courses", controller: popularController)
+          courseRow(title: "New Courses", controller: newController)
           tipOfTheDay
         }
         .padding(.vertical, 16)
@@ -35,41 +35,77 @@ struct HomeView: View {
     _ = await (banner, popular, new, tip)
   }
 
+  // MARK: - Hero banner
+
   private var heroBanner: some View {
     RoundedRectangle(cornerRadius: 16)
       .fill(Color.accentColor.gradient)
       .frame(height: 180)
-      .overlay(alignment: .bottomLeading) {
-        if let banner = heroController.banner {
-          VStack(alignment: .leading, spacing: 4) {
-            Text(banner.title).font(.title.bold())
-            Text(banner.subtitle).font(.subheadline)
-          }
-          .foregroundStyle(.white)
-          .padding(16)
-        }
-      }
+      .overlay(alignment: .bottomLeading) { heroContent }
       .padding(.horizontal, 16)
   }
 
-  private func courseRow(title: LocalizedStringKey, courses: [Course]) -> some View {
+  @ViewBuilder
+  private var heroContent: some View {
+    switch heroController.state {
+    case .loading:
+      ProgressView()
+        .tint(.white)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    case .success(let banner):
+      VStack(alignment: .leading, spacing: 4) {
+        Text(banner.title).font(.title.bold())
+        Text(banner.subtitle).font(.subheadline)
+      }
+      .foregroundStyle(.white)
+      .padding(16)
+    case .error(let message):
+      sectionError(message) { await heroController.fetchBanner() }
+        .foregroundStyle(.white)
+        .tint(.white)
+    }
+  }
+
+  // MARK: - Course rows
+
+  private func courseRow(title: LocalizedStringKey, controller: CourseRowController) -> some View {
     VStack(alignment: .leading, spacing: 12) {
       sectionHeader(title)
-      ScrollView(.horizontal) {
-        LazyHStack(spacing: 12) {
-          ForEach(courses) { course in
-            NavigationLink(value: course) {
-              courseCard(course)
-            }
-            .buttonStyle(.plain)
-          }
-        }
-        .scrollTargetLayout()
-      }
-      .scrollIndicators(.hidden)
-      .scrollTargetBehavior(.viewAligned)
-      .contentMargins(.horizontal, 16, for: .scrollContent)
+      courseRowContent(controller)
+        .frame(minHeight: 120)
     }
+  }
+
+  @ViewBuilder
+  private func courseRowContent(_ controller: CourseRowController) -> some View {
+    switch controller.state {
+    case .loading:
+      ProgressView()
+        .frame(maxWidth: .infinity)
+    case .success(let courses) where courses.isEmpty:
+      ContentUnavailableView("No Courses", systemImage: "books.vertical")
+    case .success(let courses):
+      courseScroller(courses)
+    case .error(let message):
+      sectionError(message) { await controller.fetchCourses() }
+    }
+  }
+
+  private func courseScroller(_ courses: [Course]) -> some View {
+    ScrollView(.horizontal) {
+      LazyHStack(spacing: 12) {
+        ForEach(courses) { course in
+          NavigationLink(value: course) {
+            courseCard(course)
+          }
+          .buttonStyle(.plain)
+        }
+      }
+      .scrollTargetLayout()
+    }
+    .scrollIndicators(.hidden)
+    .scrollTargetBehavior(.viewAligned)
+    .contentMargins(.horizontal, 16, for: .scrollContent)
   }
 
   private func courseCard(_ course: Course) -> some View {
@@ -79,29 +115,60 @@ struct HomeView: View {
       .overlay { Text(course.name).font(.caption).foregroundStyle(.primary) }
   }
 
-  @ViewBuilder
+  // MARK: - Tip of the day
+
   private var tipOfTheDay: some View {
-    if let tip = tipController.tip {
-      VStack(alignment: .leading, spacing: 12) {
-        sectionHeader("Tip of the Day")
-        HStack(alignment: .top, spacing: 12) {
-          Image(systemName: "lightbulb")
-            .font(.title2)
-            .foregroundStyle(.tint)
-          Text(tip.text)
-            .font(.body)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .background(.tint.quaternary, in: RoundedRectangle(cornerRadius: 16))
-        .padding(.horizontal, 16)
-      }
+    VStack(alignment: .leading, spacing: 12) {
+      sectionHeader("Tip of the Day")
+      tipContent
     }
   }
+
+  @ViewBuilder
+  private var tipContent: some View {
+    switch tipController.state {
+    case .loading:
+      ProgressView()
+        .frame(maxWidth: .infinity)
+    case .success(let tip):
+      tipCard(tip)
+    case .error(let message):
+      sectionError(message) { await tipController.fetchTip() }
+    }
+  }
+
+  private func tipCard(_ tip: Tip) -> some View {
+    HStack(alignment: .top, spacing: 12) {
+      Image(systemName: "lightbulb")
+        .font(.title2)
+        .foregroundStyle(.tint)
+      Text(tip.text)
+        .font(.body)
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(16)
+    .background(.tint.quaternary, in: RoundedRectangle(cornerRadius: 16))
+    .padding(.horizontal, 16)
+  }
+
+  // MARK: - Shared
 
   private func sectionHeader(_ title: LocalizedStringKey) -> some View {
     Text(title)
       .font(.title2.bold())
       .padding(.horizontal, 16)
+  }
+
+  private func sectionError(_ message: String, retry: @escaping () async -> Void) -> some View {
+    ContentUnavailableView {
+      Label("Couldn't Load", systemImage: "exclamationmark.triangle")
+    } description: {
+      Text(message)
+    } actions: {
+      Button("Try Again") {
+        Task { await retry() }
+      }
+      .buttonStyle(.bordered)
+    }
   }
 }

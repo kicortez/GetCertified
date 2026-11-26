@@ -3,60 +3,84 @@ import Testing
 @testable import GetCertified
 
 struct CourseRowControllerTests {
-  @Test func fetchPublishesCourses() async {
+  @Test func startsLoading() {
+    let controller = CourseRowController(service: StubCourseRowService(result: .success([.fixture()])))
+    #expect(controller.state == .loading)
+  }
+
+  @Test func fetchSucceeds() async {
     let courses: [Course] = [.fixture(id: "a"), .fixture(id: "b")]
     let controller = CourseRowController(service: StubCourseRowService(result: .success(courses)))
 
     await controller.fetchCourses()
 
-    #expect(controller.courses == courses)
+    #expect(controller.state == .success(courses))
   }
 
-  @Test func failedFetchLeavesRowEmpty() async {
+  @Test func failedFetchSetsError() async {
     let controller = CourseRowController(service: StubCourseRowService(result: .failure(TestError())))
 
     await controller.fetchCourses()
 
-    #expect(controller.courses.isEmpty)
+    guard case .error = controller.state else {
+      Issue.record("Expected .error, got \(controller.state)")
+      return
+    }
   }
 }
 
 struct HeroBannerControllerTests {
-  @Test func fetchPublishesBanner() async {
+  @Test func startsLoading() {
     let banner = HeroBanner(title: "Title", subtitle: "Subtitle")
     let controller = HeroBannerController(service: StubHeroBannerService(result: .success(banner)))
-    #expect(controller.banner == nil)
+    #expect(controller.state == .loading)
+  }
+
+  @Test func fetchSucceeds() async {
+    let banner = HeroBanner(title: "Title", subtitle: "Subtitle")
+    let controller = HeroBannerController(service: StubHeroBannerService(result: .success(banner)))
 
     await controller.fetchBanner()
 
-    #expect(controller.banner == banner)
+    #expect(controller.state == .success(banner))
   }
 
-  @Test func failedFetchLeavesBannerNil() async {
+  @Test func failedFetchSetsError() async {
     let controller = HeroBannerController(service: StubHeroBannerService(result: .failure(TestError())))
 
     await controller.fetchBanner()
 
-    #expect(controller.banner == nil)
+    guard case .error = controller.state else {
+      Issue.record("Expected .error, got \(controller.state)")
+      return
+    }
   }
 }
 
 struct TipControllerTests {
-  @Test func fetchPublishesTip() async {
+  @Test func startsLoading() {
     let tip = Tip(id: "tip", text: "Study daily.")
     let controller = TipController(service: StubTipService(result: .success(tip)))
-    #expect(controller.tip == nil)
+    #expect(controller.state == .loading)
+  }
+
+  @Test func fetchSucceeds() async {
+    let tip = Tip(id: "tip", text: "Study daily.")
+    let controller = TipController(service: StubTipService(result: .success(tip)))
 
     await controller.fetchTip()
 
-    #expect(controller.tip == tip)
+    #expect(controller.state == .success(tip))
   }
 
-  @Test func failedFetchLeavesTipNil() async {
+  @Test func failedFetchSetsError() async {
     let controller = TipController(service: StubTipService(result: .failure(TestError())))
 
     await controller.fetchTip()
 
-    #expect(controller.tip == nil)
+    guard case .error = controller.state else {
+      Issue.record("Expected .error, got \(controller.state)")
+      return
+    }
   }
 }

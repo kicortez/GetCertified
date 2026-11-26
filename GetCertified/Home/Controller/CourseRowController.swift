@@ -5,17 +5,18 @@ import Observation
 final class CourseRowController {
   @ObservationIgnored private let service: CourseRowServiceProtocol
 
-  private(set) var courses: [Course] = []
+  private(set) var state: LoadState<[Course]> = .loading
 
   init(service: CourseRowServiceProtocol) {
     self.service = service
   }
 
   func fetchCourses() async {
+    state = .loading
     do {
-      courses = try await service.fetchCourses()
+      state = .success(try await service.fetchCourses())
     } catch {
-      print("Failed to fetch course row: \(error)")
+      state = .error(error.localizedDescription)
     }
   }
 }
