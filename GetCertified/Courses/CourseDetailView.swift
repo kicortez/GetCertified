@@ -23,20 +23,7 @@ struct CourseDetailView: View {
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 16) {
-        AsyncImage(url: URL(string: course.image)) { image in
-          image.resizable().scaledToFill()
-        } placeholder: {
-          Rectangle().fill(.tint.quaternary)
-        }
-        .frame(height: 200)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-
-        VStack(alignment: .leading, spacing: 4) {
-          Text(course.name).font(.title).bold()
-          if let subtitle = course.subtitle {
-            Text(subtitle).font(.headline).foregroundStyle(.secondary)
-          }
-        }
+        header
 
         VStack(alignment: .leading, spacing: 8) {
           Label(course.category, systemImage: "tag")
@@ -65,6 +52,19 @@ struct CourseDetailView: View {
     .onChange(of: trainingListController.state, initial: true) { _, state in
       if case .success(let list) = state {
         isAdded = list.items.contains { $0.id == course.id }
+      }
+    }
+  }
+
+  private var header: some View {
+    HStack(spacing: 16) {
+      CourseIcon(name: course.image)
+        .frame(width: 96, height: 96)
+      VStack(alignment: .leading, spacing: 4) {
+        Text(course.name).font(.title).bold()
+        if let subtitle = course.subtitle {
+          Text(subtitle).font(.headline).foregroundStyle(.secondary)
+        }
       }
     }
   }

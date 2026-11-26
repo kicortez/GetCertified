@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F7FD0"/><stop offset="1" stop-color="#173F7A"/></linearGradient></defs><rect x="4" y="4" width="112" height="112" rx="26" fill="url(#g)"/><rect x="4" y="4" width="112" height="56" rx="26" fill="#fff" opacity="0.08"/><g transform="translate(16.00,16.00) scale(2.5000)" fill="none" stroke="#fff" stroke-width="1.920" stroke-linecap="round" stroke-linejoin="round" opacity="1"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+  <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+  <line x1="6" x2="6.01" y1="6" y2="6" />
+  <line x1="6" x2="6.01" y1="18" y2="18" /></g><circle cx="86" cy="86" r="23" fill="#fff"/><g transform="translate(71.00,71.00) scale(1.2500)" fill="none" stroke="#173F7A" stroke-width="2.320" stroke-linecap="round" stroke-linejoin="round" opacity="1"><circle cx="18" cy="5" r="3" />
+  <circle cx="6" cy="12" r="3" />
+  <circle cx="18" cy="19" r="3" />
+  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></g><circle cx="94" cy="26" r="13" fill="#F7C548" stroke="#fff" stroke-width="3"/><path d="M94 18.5l2.3 4.7 5.2.8-3.75 3.65.9 5.15L94 30.4l-4.65 2.4.9-5.15L86.5 24l5.2-.8z" fill="#fff"/></svg>

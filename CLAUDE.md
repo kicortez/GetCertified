@@ -47,7 +47,7 @@ Each feature folder has its own `CLAUDE.md`, which Claude Code loads when it wor
 
 The `Course` model belongs to Courses, but other features use it too. State shared across features lives in controllers that the `App` (`GetCertified.swift`) owns and injects with `.environment(_:)`. For now that is only `TrainingListController`, which "Add to training" in Courses writes to and Book reads from. Book saves its own `TrainingListItem` snapshot rather than `Course`.
 
-Types shared by several features that aren't models live in `GetCertified/Shared/`. Today that is `LoadState<Value>` (`.loading` / `.success(Value)` / `.error(String)`), which every controller that loads data exposes as `private(set) var state`.
+Types shared by several features that aren't models live in `GetCertified/Shared/`. Today that is `LoadState<Value>` (`.loading` / `.success(Value)` / `.error(String)`), which every controller that loads data exposes as `private(set) var state`, and `CourseIcon`, the view that draws a course's bundled icon in Courses and Home.
 
 New features should follow the Courses layering, and each new feature folder gets its own `CLAUDE.md`.
 

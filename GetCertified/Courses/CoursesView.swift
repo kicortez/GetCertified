@@ -46,10 +46,7 @@ struct CoursesView: View {
       LazyVGrid(columns: columns, spacing: 16) {
         ForEach(filteredItems(courses)) { course in
           NavigationLink(value: course) {
-            RoundedRectangle(cornerRadius: 16)
-              .fill(.tint.quaternary)
-              .aspectRatio(1, contentMode: .fit)
-              .overlay { Text(course.name).foregroundStyle(.primary) }
+            courseCard(course)
           }
           .buttonStyle(.plain)
         }
@@ -57,6 +54,21 @@ struct CoursesView: View {
       .padding(16)
     }
     .searchable(text: $searchText)
+  }
+
+  private func courseCard(_ course: Course) -> some View {
+    VStack(spacing: 8) {
+      CourseIcon(name: course.image)
+        .frame(width: 72, height: 72)
+      Text(course.name)
+        .font(.subheadline.weight(.medium))
+        .multilineTextAlignment(.center)
+        .lineLimit(2, reservesSpace: true)
+        .foregroundStyle(.primary)
+    }
+    .padding(12)
+    .frame(maxWidth: .infinity)
+    .background(.tint.quaternary, in: RoundedRectangle(cornerRadius: 16))
   }
 
   private func errorView(_ message: String) -> some View {

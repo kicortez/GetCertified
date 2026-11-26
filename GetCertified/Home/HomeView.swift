@@ -109,10 +109,18 @@ struct HomeView: View {
   }
 
   private func courseCard(_ course: Course) -> some View {
-    RoundedRectangle(cornerRadius: 16)
-      .fill(.tint.quaternary)
-      .frame(width: 160, height: 120)
-      .overlay { Text(course.name).font(.caption).foregroundStyle(.primary) }
+    VStack(alignment: .leading, spacing: 8) {
+      CourseIcon(name: course.image)
+        .frame(width: 48, height: 48)
+      Spacer(minLength: 0)
+      Text(course.name)
+        .font(.caption.weight(.medium))
+        .lineLimit(2)
+        .foregroundStyle(.primary)
+    }
+    .padding(12)
+    .frame(width: 160, height: 120, alignment: .leading)
+    .background(.tint.quaternary, in: RoundedRectangle(cornerRadius: 16))
   }
 
   // MARK: - Tip of the day

@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "mac-os-x-basic-troubleshooting.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

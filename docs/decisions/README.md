@@ -20,6 +20,7 @@ Records 0001–0007 were written retroactively on 2026-11-25, from the code and 
 | [0012](0012-course-load-state-enum.md) | Model the course catalog load as a single state enum | Accepted |
 | [0013](0013-shared-load-state.md) | Share one generic `LoadState` across loading controllers, with per-section states on Home | Accepted |
 | [0014](0014-training-list-failures.md) | Drive every training list call through `LoadState`; views keep the last loaded list | Accepted |
+| [0015](0015-bundle-course-icons.md) | Bundle course icons in the asset catalog | Accepted |
 
 ## Adding a record
 
