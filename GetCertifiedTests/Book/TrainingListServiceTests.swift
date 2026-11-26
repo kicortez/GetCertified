@@ -46,12 +46,14 @@ struct TrainingListServiceTests {
     #expect(try await service.remove(ids: ["c"]).summary == TrainingList.Summary(count: 2, hours: 24, days: 3))
   }
 
-  @Test func unreadableFileStartsEmptyAndIsReplacedOnAdd() async throws {
+  @Test func unreadableFileFailsFetchAndIsReplacedOnAdd() async throws {
     try FileManager.default.createDirectory(
       at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
     try Data(#"[{"id":"old","unexpected":true}]"#.utf8).write(to: fileURL)
 
-    #expect(try await service.fetch().items.isEmpty)
+    await #expect(throws: TrainingListService.ServiceError.unreadable) {
+      try await service.fetch()
+    }
 
     _ = try await service.add(.fixture(id: "a"))
     #expect(try await service.fetch().items.map(\.id) == ["a"])

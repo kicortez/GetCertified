@@ -5,40 +5,32 @@ import Observation
 final class TrainingListController {
   @ObservationIgnored private let service: TrainingListServiceProtocol
 
-  private(set) var list: TrainingList = .empty
-
-  var items: [TrainingListItem] { list.items }
-  var summary: TrainingList.Summary { list.summary }
+  /// Every service call sets `.loading`, then `.success` with the returned list or `.error`.
+  /// Views keep the last `.success` list themselves, so it stays on screen while loading or after an error.
+  private(set) var state: LoadState<TrainingList> = .loading
 
   init(service: TrainingListServiceProtocol) {
     self.service = service
   }
 
   func fetch() async {
-    do {
-      list = try await service.fetch()
-    } catch {
-      print("Failed to fetch training list: \(error)")
-    }
-  }
-
-  func contains(_ course: Course) -> Bool {
-    items.contains { $0.id == course.id }
+    await load { try await $0.fetch() }
   }
 
   func add(_ course: Course) async {
-    do {
-      list = try await service.add(TrainingListItem(course))
-    } catch {
-      print("Failed to add course: \(error)")
-    }
+    await load { try await $0.add(TrainingListItem(course)) }
   }
 
   func remove(ids: Set<TrainingListItem.ID>) async {
+    await load { try await $0.remove(ids: ids) }
+  }
+
+  private func load(_ operation: (TrainingListServiceProtocol) async throws -> TrainingList) async {
+    state = .loading
     do {
-      list = try await service.remove(ids: ids)
+      state = .success(try await operation(service))
     } catch {
-      print("Failed to remove trainings: \(error)")
+      state = .error(error.localizedDescription)
     }
   }
 }

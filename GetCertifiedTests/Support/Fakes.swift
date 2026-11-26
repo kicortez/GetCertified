@@ -3,11 +3,15 @@ import Foundation
 
 struct TestError: Error {}
 
-/// A training list service whose every call fails.
-struct FailingTrainingListService: TrainingListServiceProtocol {
-  func fetch() async throws -> TrainingList { throw TestError() }
-  func add(_ item: TrainingListItem) async throws -> TrainingList { throw TestError() }
-  func remove(ids: Set<TrainingListItem.ID>) async throws -> TrainingList { throw TestError() }
+/// A training list service that returns `fetchResult` from `fetch()` and `changeResult` from
+/// `add(_:)` and `remove(ids:)`, with no delay.
+struct StubTrainingListService: TrainingListServiceProtocol {
+  var fetchResult: Result<TrainingList, Error>
+  var changeResult: Result<TrainingList, Error>
+
+  func fetch() async throws -> TrainingList { try fetchResult.get() }
+  func add(_ item: TrainingListItem) async throws -> TrainingList { try changeResult.get() }
+  func remove(ids: Set<TrainingListItem.ID>) async throws -> TrainingList { try changeResult.get() }
 }
 
 /// A booking service that records the request it receives.

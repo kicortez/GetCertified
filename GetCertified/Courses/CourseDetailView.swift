@@ -5,7 +5,20 @@ struct CourseDetailView: View {
 
   @Environment(TrainingListController.self) private var trainingListController
 
-  private var isAdded: Bool { trainingListController.contains(course) }
+  /// Whether the course is in the list from the last successful service call. Kept here so a
+  /// later `.loading` or `.error` doesn't flip the button.
+  @State private var isAdded = false
+
+  /// The message of a failed add or remove made from this view.
+  @State private var errorMessage: String?
+
+  private var isLoading: Bool { trainingListController.state == .loading }
+
+  private var isShowingError: Binding<Bool> {
+    Binding(
+      get: { errorMessage != nil },
+      set: { if !$0 { errorMessage = nil } })
+  }
 
   var body: some View {
     ScrollView {
@@ -44,28 +57,55 @@ struct CourseDetailView: View {
     .safeAreaInset(edge: .bottom) { addButton }
     .navigationTitle(course.name)
     .navigationBarTitleDisplayMode(.inline)
+    .alert("Couldn't Update Training List", isPresented: isShowingError) {
+      Button("OK", role: .cancel) {}
+    } message: {
+      Text(errorMessage ?? "")
+    }
+    .onChange(of: trainingListController.state, initial: true) { _, state in
+      if case .success(let list) = state {
+        isAdded = list.items.contains { $0.id == course.id }
+      }
+    }
   }
 
   private var addButton: some View {
     Group {
       if isAdded {
         Button(role: .destructive) {
-          Task { await trainingListController.remove(ids: [course.id]) }
+          Task { await perform { await trainingListController.remove(ids: [course.id]) } }
         } label: {
-          Text("Remove from training").frame(maxWidth: .infinity)
+          buttonLabel("Remove from training")
         }
         .buttonStyle(.bordered)
       } else {
         Button {
-          Task { await trainingListController.add(course) }
+          Task { await perform { await trainingListController.add(course) } }
         } label: {
-          Text("Add to training").frame(maxWidth: .infinity)
+          buttonLabel("Add to training")
         }
         .buttonStyle(.borderedProminent)
       }
     }
+    .disabled(isLoading)
     .controlSize(.large)
     .padding(16)
     .background(.bar)
+  }
+
+  private func buttonLabel(_ title: LocalizedStringKey) -> some View {
+    ZStack {
+      Text(title).opacity(isLoading ? 0 : 1)
+      if isLoading { ProgressView() }
+    }
+    .frame(maxWidth: .infinity)
+  }
+
+  // MARK: - Actions
+
+  /// Runs a training list change and, if it fails, reports it here.
+  private func perform(_ change: () async -> Void) async {
+    await change()
+    if case .error(let message) = trainingListController.state { errorMessage = message }
   }
 }

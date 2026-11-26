@@ -2,8 +2,8 @@ import Foundation
 
 /// The training list together with its totals, as returned by `TrainingListServiceProtocol`.
 /// The totals are calculated by the service, so views only format them.
-struct TrainingList: Equatable {
-  struct Summary: Equatable {
+struct TrainingList: Codable, Equatable {
+  struct Summary: Codable, Equatable {
     let count: Int
     let hours: Int
     let days: Double

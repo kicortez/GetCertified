@@ -6,31 +6,37 @@ struct TrainingListControllerTests {
   private let controller = TrainingListController(
     service: TrainingListService(fileURL: temporaryFileURL()))
 
-  @Test func addAndContains() async {
-    let course = Course.fixture(id: "a")
-    #expect(!controller.contains(course))
+  /// The ids in `.success`, or `nil` for any other state.
+  private func loadedIDs(_ controller: TrainingListController) -> [String]? {
+    guard case .success(let list) = controller.state else { return nil }
+    return list.items.map(\.id)
+  }
 
-    await controller.add(course)
+  @Test func startsLoading() {
+    #expect(controller.state == .loading)
+  }
 
-    #expect(controller.contains(course))
-    #expect(controller.items.map(\.id) == ["a"])
+  @Test func addSetsTheUpdatedList() async {
+    await controller.add(.fixture(id: "a"))
+
+    #expect(loadedIDs(controller) == ["a"])
   }
 
   @Test func addingTwiceKeepsOneEntry() async {
     await controller.add(.fixture(id: "a"))
     await controller.add(.fixture(id: "a"))
 
-    #expect(controller.items.count == 1)
+    #expect(loadedIDs(controller) == ["a"])
   }
 
   @Test func removeOneThenMany() async {
     for id in ["a", "b", "c"] { await controller.add(.fixture(id: id)) }
 
     await controller.remove(ids: ["b"])
-    #expect(controller.items.map(\.id) == ["a", "c"])
+    #expect(loadedIDs(controller) == ["a", "c"])
 
     await controller.remove(ids: ["a", "c"])
-    #expect(controller.items.isEmpty)
+    #expect(loadedIDs(controller) == [])
   }
 
   @Test func fetchLoadsWhatWasSaved() async throws {
@@ -40,15 +46,52 @@ struct TrainingListControllerTests {
     let controller = TrainingListController(service: TrainingListService(fileURL: fileURL))
     await controller.fetch()
 
-    #expect(controller.items.map(\.id) == ["saved"])
+    #expect(loadedIDs(controller) == ["saved"])
   }
 
-  @Test func failuresLeaveTheListUnchanged() async {
-    let controller = TrainingListController(service: FailingTrainingListService())
+  @Test func fetchSuccessSetsTheList() async {
+    let list = TrainingList(items: [.fixture(id: "a")], summary: .zero)
+    let controller = TrainingListController(
+      service: StubTrainingListService(fetchResult: .success(list), changeResult: .success(list)))
 
     await controller.fetch()
-    await controller.add(.fixture())
 
-    #expect(controller.items.isEmpty)
+    #expect(controller.state == .success(list))
+  }
+
+  @Test func failedFetchSetsError() async {
+    let controller = TrainingListController(
+      service: StubTrainingListService(fetchResult: .failure(TestError()), changeResult: .success(.empty)))
+
+    await controller.fetch()
+
+    guard case .error = controller.state else {
+      Issue.record("Expected .error, got \(controller.state)")
+      return
+    }
+  }
+
+  @Test func failedChangeSetsError() async {
+    let controller = TrainingListController(
+      service: StubTrainingListService(fetchResult: .success(.empty), changeResult: .failure(TestError())))
+    await controller.fetch()
+
+    await controller.add(.fixture(id: "a"))
+
+    guard case .error = controller.state else {
+      Issue.record("Expected .error, got \(controller.state)")
+      return
+    }
+  }
+
+  @Test func changeSuccessRecoversFromFetchError() async {
+    let list = TrainingList(items: [.fixture(id: "a")], summary: .zero)
+    let controller = TrainingListController(
+      service: StubTrainingListService(fetchResult: .failure(TestError()), changeResult: .success(list)))
+    await controller.fetch()
+
+    await controller.add(.fixture(id: "a"))
+
+    #expect(controller.state == .success(list))
   }
 }

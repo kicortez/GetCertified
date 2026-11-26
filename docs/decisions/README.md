@@ -19,6 +19,7 @@ Records 0001–0007 were written retroactively on 2026-11-25, from the code and 
 | [0011](0011-swipe-only-removal.md) | Remove trainings by swipe only, without confirmation | Accepted |
 | [0012](0012-course-load-state-enum.md) | Model the course catalog load as a single state enum | Accepted |
 | [0013](0013-shared-load-state.md) | Share one generic `LoadState` across loading controllers, with per-section states on Home | Accepted |
+| [0014](0014-training-list-failures.md) | Drive every training list call through `LoadState`; views keep the last loaded list | Accepted |
 
 ## Adding a record
 
