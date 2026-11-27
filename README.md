@@ -12,7 +12,7 @@ A SwiftUI app for browsing training and certification courses and requesting to 
 | **Courses** | Browses and searches the catalog, opens a course, and adds it to their training list. |
 | **Book** | Reviews the training list, then submits one booking request with contact details and a preferred start date. A reference number comes back. |
 
-In the old app, the inquiry form asked only for personal details. In the rebuild, booking is a cart: the user collects trainings first and sends one request that says what they want and when.
+In the old app, the inquiry form asked only for personal details. In the rebuild, the user collects trainings into a training list first, then sends one request that says what they want and when.
 
 ## Architecture
 
@@ -36,7 +36,9 @@ Concurrency: the target uses `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`, so UI-
 |---|---|---|
 | [Rebuild in SwiftUI instead of porting](docs/decisions/0001-rebuild-instead-of-port.md) | The source was gone, and most findings were structural (navigation, layout, flow), not cosmetic. | The new app has no code lineage with the old one, so "before" can only be compared by behavior. |
 | [Protocol seam on every service, including static JSON](docs/decisions/0002-protocol-seam-on-every-service.md) | Controllers can be tested with fakes, and a backend can be added without touching UI. | More types than a JSON-only app strictly needs. |
-| [The training list stores a slim snapshot of each course, not IDs](docs/decisions/0008-store-slim-cart-snapshots.md) | The list renders without the catalog, a course removed from the catalog doesn't silently drop out of the cart, and changes to `Course` can't break saved carts because Book saves only the fields it displays. | Saved details can go stale. It replaced storing full `Course` values ([0003](docs/decisions/0003-store-course-snapshots.md)). |
+| [The training list stores a slim snapshot of each course, not IDs](docs/decisions/0008-store-slim-cart-snapshots.md) | The list renders without the catalog, a course removed from the catalog doesn't silently drop out of the list, and changes to `Course` can't break a saved list because Book saves only the fields it displays. | Saved details can go stale. It replaced storing full `Course` values ([0003](docs/decisions/0003-store-course-snapshots.md)). |
+| [One shared `LoadState` for every loading controller](docs/decisions/0013-shared-load-state.md) | Each screen, and each Home section, is always in exactly one of loading, loaded or failed, so failures are visible, retryable and testable. A failed Home section fails on its own. | The value must be `Codable`, and views that need the last good value keep it themselves ([0014](docs/decisions/0014-training-list-failures.md)). |
+| [Remove trainings by swipe only, without confirmation](docs/decisions/0011-swipe-only-removal.md) | Swipe-to-delete is the platform convention, and re-adding a course is cheap. | No undo, and removal is less discoverable. It replaced a confirmation dialog ([0006](docs/decisions/0006-confirm-every-deletion.md)) and a per-row button ([0010](docs/decisions/0010-remove-button-no-confirmation.md)). |
 
 Every decision, with the alternatives that were considered, is recorded in the [decision log](docs/decisions/).
 
@@ -44,10 +46,12 @@ Every decision, with the alternatives that were considered, is recorded in the [
 
 These are deliberate cuts for now, listed so the gaps aren't a surprise:
 
-- Home load failures are logged, not shown. Only the Courses catalog and Submit Request have loading and error states.
-- Course images are placeholders.
+- All data is local. The catalog, training list and booking services add a simulated delay so loading states show up as they would with a network.
 - Training-list file I/O runs on the main actor. That's fine at this size, and it's the first thing to move off the main actor if the list grows.
 - Booking goes to `MockBookingService`. No request leaves the device.
+- Removing a training has no undo. A course removed by mistake is re-added from Courses.
+- Course icons are bundled in the asset catalog, so a new course needs an app update ([0015](docs/decisions/0015-bundle-course-icons.md)).
+- Tests run locally only. A CI workflow is planned.
 
 ## Tests
 
